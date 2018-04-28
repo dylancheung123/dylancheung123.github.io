@@ -5,9 +5,15 @@
 	<body>
 		<h1> Let me know it if worked... <h1>
 			<head>
-			<pre lang="javascript">
-<style id="antiClickjack">body{display:none !important;}</style> <script type="text/javascript"> if (self === top) { var antiClickjack = document.getElementById("antiClickjack"); antiClickjack.parentNode.removeChild(antiClickjack); } else { top.location = self.location; } </script>
-</pre>
+			<style id="antiClickjack">body{display:none !important;}</style>
+			<script type="text/javascript">
+			   if (self === top) {
+			       var antiClickjack = document.getElementById("antiClickjack");
+			       antiClickjack.parentNode.removeChild(antiClickjack);
+			   } else {
+			       top.location = self.location;
+			   }
+			</script>
 			<meta http-equiv="refresh" content="1; URL=https://www.youtube.com/watch?v=dQw4w9WgXcQ">
 			<meta name="keywords" content="automatic redirection">
 			</head>
