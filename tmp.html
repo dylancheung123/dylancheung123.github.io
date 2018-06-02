@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+if (top.location!= self.location) {
+top.location = self.location.href;
+}
+<html>
+<title> Dylan Cheung </title>
+<body>
+<h1> Let me know it if worked... <h1>
+    <head>
+        <style id="antiClickjack">body{display:none !important;}</style>
+        <script type="text/javascript">
+            if (self === top) {
+                var antiClickjack = document.getElementById("antiClickjack");
+                antiClickjack.parentNode.removeChild(antiClickjack);
+            } else {
+                top.location = self.location;
+            }
+        </script>
+        <meta http-equiv="refresh" content="1; URL=https://www.youtube.com/watch?v=dQw4w9WgXcQ">
+        <meta name="keywords" content="automatic redirection">
+    </head>
+</body>
+</html>
