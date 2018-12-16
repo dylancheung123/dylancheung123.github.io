@@ -1,87 +1,117 @@
-.container {
-  background-image: url("./blurred_baclground.JPG");
-  background-size: cover;
-  /* background: linear-gradient(to bottom right, white, slategray); */
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  width: 100%;
+.container, html, body {
   height: 100%;
+  margin: 0;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  background-image: url("images/sharp_background.jpg");
+  /*background-size: 100% 100%;*/
+  background-size: cover ;
   font-family: 'Rubik', sans-serif;
 }
 
 .float_box {
-  background: #3a3a3b ;
+  display: flex;
+  flex-direction: column;
+  /*background: #3a3a3b ;*/
   color: white;
-  position: absolute;
   margin: auto;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  width: 65%;
-  height: 60%;
-  min-width: 65%;
-  min-height: 60%;
-  border-radius: 25px;
-  -webkit-box-shadow: 10px 10px 30px 0px #383636; 
-  box-shadow: 10px 10px 30px 0px #383636; 
+  width: 50%;
+  /*height: 50%;*/
+  /*min-width: 65%;*/
+  /*min-height: 50%;*/
+  /*border-radius: 25px;*/
+  /*-webkit-box-shadow: 10px 10px 30px 0px #383636; */
+  /*box-shadow: 10px 10px 30px 0px #383636; */
 }
 
 .header {
+  display: flex;
+  flex-direction: row;
+  /*background: aqua;*/
   height: 15%;
   width: 100%
 }
 
-#title {
-  float: left;
-  height: 80%;
-  width: 40%;
-  margin: 0px 40px 20px 40px;
-  font-size: 20pt;
+#title_box{
+  display: flex;
+  /*background:red;*/
+  width: 50%;
+  font-size: 14pt;
 }
 
-#links {
-  float:right;
-  height: 80%;
-  width: 40%;
-  text-align: right;
-  margin: 20px 40px;
-  text-decoration: none;
+#title {
+  display: flex;
+  align-items: center;
+  /*background: greenyellow;*/
+  padding: 20px;
+}
 
+
+#link_box {
+  display: flex;
+  justify-content: flex-end;
+  /*background: blueviolet;*/
+  width: 50%;
+  text-align: right;
 }
 
 #resume {
-  color:white;
+  display: flex;
+  align-items: center;
+  /*background: midnightblue;*/
+  padding: 20px;
+}
+
+.link_text {
+  color: white;
   text-decoration: none;
   font-size: 14pt;
 }
 
 .center {
-  height: 72%;
+  display: flex;
+  /*background: brown;*/
+  height: 70%;
   width: 100%;
 }
 
 #bio {
+  display: flex;
+  flex-direction: column;
+  /*background: forestgreen;*/
   height: 80%;
-  width: 40%;
-  margin: 30px 100px;
+  width: 70%;
+  margin: 30px 50px;
   float: left;
   text-align: justify;
+  padding: 20px;
 }
 
 .footer {
-  height: 13%;
+  display: flex;
+  justify-content: flex-start;
+  /*align-content: center;*/
+  /*background: coral;*/
+  height: 15%;
   width: 100%;
 }
 
 .icons{
-  margin: 5px 20px;
+  display: flex;
+  align-items: center;
+  /*background: midnightblue;*/
+  padding: 10px;
 }
+
 .icon {
   color: white;
-  margin: 5px 10px;
   text-decoration: none;
+  padding: 10px;
 }
