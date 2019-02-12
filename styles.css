@@ -1,89 +1,100 @@
-.container, html, body {
+html, body {
   height: 100%;
   margin: 0;
 }
 
-.container {
-  background-image: url("images/sharp_background.jpg");
-  /*background-size: 100% 100%;*/
+/* Set the background color of body to tan */
+body {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  background-color: tan;
+  /* background-image: url("images/sharp_background.jpg"); */
   background-size: cover ;
   font-family: 'Rubik', sans-serif;
 }
 
-.float_box {
-  /*background: #3a3a3b ;*/
+.container {
+  background: #3a3a3b ;
+  display: flex;
+  flex-direction: column;
   color: white;
-  margin: auto;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  width: 50%;
 }
 
+/* Header */
 .header {
   /* background: aqua; */
-  height: 15%;
-  width: 100%
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-#title_box{
-  /* background:red; */
-  width: 50%;
-  font-size: 14pt;
-}
-
-#title {
+.title {
   /* background: greenyellow; */
+  display: flex;
+  order: 1;
   padding: 20px;
+  font-size: 24pt;
 }
 
-#link_box {
+.resume {
   /* background: blueviolet; */
-  width: 50%;
-  text-align: right;
+  display: flex;
+  order: 2;
+  padding: 0px 20px;
 }
 
-#resume {
-  /* background: midnightblue; */
-  padding: 20px;
-}
-
-.link_text {
+.resume a {
   color: white;
   text-decoration: none;
-  font-size: 14pt;
+  font-size: 10pt;
 }
 
+/* Center */
 .center {
-  /*background: brown;*/
-  height: 70%;
-  width: 100%;
+  /* background: brown; */
+  display: flex;
+  justify-content: center;
 }
 
-#bio {
-  /*background: forestgreen;*/
-  height: 80%;
-  width: 70%;
-  margin: 30px 50px;
-  float: left;
-  text-align: justify;
+.bio {
+  /* background: forestgreen; */
+  display: flex;
+  flex-direction: column;
   padding: 20px;
 }
 
+/* Footer */
 .footer {
-  /*background: coral;*/
-  height: 15%;
-  width: 100%;
+  /* background: coral; */
+  display: flex;
+  justify-content: flex-start;
 }
 
 .icons{
-  /*background: midnightblue;*/
+  /* background: midnightblue; */
+  display: flex;
+  align-items: center;
   padding: 10px;
 }
 
-.icon {
+.icons a{
   color: white;
   text-decoration: none;
   padding: 10px;
+}
+
+
+/* On screens that are 600px or more, set the background color to olive */
+@media screen and (min-width: 666px) and (max-width: 992px){
+  body {
+    background-color: olive;
+  }
+}
+
+/* On screens that are 992px or less, set the background color to blue */
+@media screen and (min-width: 992px) {
+  body {
+    background-color: blue;
+  }
 }
