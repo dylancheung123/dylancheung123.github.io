@@ -5,17 +5,17 @@ html, body {
 
 /* Set the background color of body to tan */
 body {
+    background: #3a3a3b ;
   display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  background-color: tan;
+  justify-content: center;
+  align-items: center;
   /* background-image: url("images/sharp_background.jpg"); */
   background-size: cover ;
   font-family: 'Rubik', sans-serif;
 }
 
 .container {
-  background: #3a3a3b ;
+  /* background: #3a3a3b ; */
   display: flex;
   flex-direction: column;
   color: white;
