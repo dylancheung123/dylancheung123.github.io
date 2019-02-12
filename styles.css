@@ -26,7 +26,6 @@ body {
   /* background: aqua; */
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 
 .title {
@@ -35,19 +34,7 @@ body {
   order: 1;
   padding: 20px;
   font-size: 24pt;
-}
-
-.resume {
-  /* background: blueviolet; */
-  display: flex;
-  order: 2;
-  padding: 0px 20px;
-}
-
-.resume a {
-  color: white;
-  text-decoration: none;
-  font-size: 10pt;
+  justify-content: center;
 }
 
 /* Center */
@@ -61,7 +48,7 @@ body {
   /* background: forestgreen; */
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 0px 20px;
   font-size: 12pt;
 }
 
@@ -73,14 +60,15 @@ body {
 .footer {
   /* background: coral; */
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
+  padding: 0px 20px;
 }
 
 .icons{
   /* background: midnightblue; */
   display: flex;
+  order: 1;
   align-items: center;
-  padding: 10px;
 }
 
 .icons a{
@@ -89,6 +77,18 @@ body {
   padding: 10px;
 }
 
+.resume {
+  display: flex;
+  order: 2;
+  align-items: center;
+}
+
+.resume a{ 
+  color: white;
+  text-decoration: none;
+  font-size: 10pt;
+  padding: 10px;
+}
 
 /* On screens that are 600px or more, set the background color to olive */
 @media screen and (min-width: 666px) and (max-width: 992px){
