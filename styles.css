@@ -5,12 +5,10 @@ html, body {
 
 /* Set the background color of body to tan */
 body {
-    background: #3a3a3b ;
+  background: #3a3a3b ;
   display: flex;
   justify-content: center;
-  align-items: center;
-  /* background-image: url("images/sharp_background.jpg"); */
-  background-size: cover ;
+  align-items: flex-start;
   font-family: 'Rubik', sans-serif;
 }
 
@@ -19,6 +17,7 @@ body {
   display: flex;
   flex-direction: column;
   color: white;
+  max-width: 500px;
 }
 
 /* Header */
@@ -33,8 +32,8 @@ body {
   display: flex;
   order: 1;
   padding: 20px;
-  font-size: 24pt;
-  justify-content: center;
+  font-size: 2em;
+  /* justify-content: center; */
 }
 
 /* Center */
@@ -49,11 +48,10 @@ body {
   display: flex;
   flex-direction: column;
   padding: 0px 20px;
-  font-size: 12pt;
 }
 
 .bio p {
-  font-size: 11pt;
+  font-size: 0.9em;
 }
 
 /* Footer */
@@ -86,20 +84,32 @@ body {
 .resume a{ 
   color: white;
   text-decoration: none;
-  font-size: 10pt;
+  font-size: 0.8em;
   padding: 10px;
 }
 
 /* On screens that are 600px or more, set the background color to olive */
-@media screen and (min-width: 666px) and (max-width: 992px){
+@media only screen and (min-width: 600px){
   body {
-    background-color: olive;
+    /* background-image: url("images/sharp_background.jpg"); */
+    /* background-size: cover; */
+    align-items: center;
   }
 }
 
-/* On screens that are 992px or less, set the background color to blue */
-@media screen and (min-width: 992px) {
-  body {
-    background-color: blue;
+/* On screens that are 900px or more, set the background color to blue */
+@media only screen and (min-width: 850px) {
+  .container {
+    max-width: 660px;
   }
+  .title {
+    font-size: 3em;
+  }
+  .bio p {
+    font-size: 1.2em;
+  }
+  .resume a {
+    font-size: 1em;
+  }
+
 }
