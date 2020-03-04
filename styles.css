@@ -54,6 +54,11 @@ body {
   font-size: 1.2em;
 }
 
+.bio a {
+  color: #F9685D;
+  text-decoration: none;
+}
+
 /* Footer */
 /* ---------------------------------------------- */
 .footer {
