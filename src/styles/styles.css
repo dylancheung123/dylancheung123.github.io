@@ -10,6 +10,8 @@ body {
   justify-content: center;
   align-items: flex-start;
   font-family: 'Rubik', sans-serif;
+  /* margin: 0px; background-color: #222222; overflow: hidden; */
+  /* z-index: 999; */
 }
 
 .page {
@@ -30,6 +32,7 @@ body {
   max-width: 500px;
   top: 50%;
   left: 50%;
+  /* z-index: 2; */
 }
 
 /* Header */

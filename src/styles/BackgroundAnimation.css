@@ -2,4 +2,6 @@
   background: transparent;
   width: 100vw;
   height: 100vh;
+  margin: 0px; background-color: #222222; overflow: hidden;
+
 }
