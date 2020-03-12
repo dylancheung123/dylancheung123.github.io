@@ -4,7 +4,7 @@ import '../styles/styles.css'
 export default class AboutMe extends React.Component {
     render(){
         return(
-            <div>
+            <div className="page">
                 <div className="container">
                     <div className="header">
                         <div className="title">
