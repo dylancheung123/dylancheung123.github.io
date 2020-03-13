@@ -27,7 +27,7 @@ var onRenderFcts= [];
 var scene	= new THREE.Scene();
 scene.background = new THREE.Color( 0xff0000 );
 
-var camera	= new THREE.PerspectiveCamera(25, window.innerWidth /    window.innerHeight, 0.01, 1000);
+var camera	= new THREE.PerspectiveCamera(75, window.innerWidth /    window.innerHeight, 0.01, 1000);
 /* Play around with camera positioning */
 camera.position.z = 15; 
 camera.position.y = 2;

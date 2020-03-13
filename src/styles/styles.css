@@ -10,7 +10,7 @@ body {
   justify-content: center;
   align-items: flex-start;
   font-family: 'Rubik', sans-serif;
-  /* margin: 0px; background-color: #222222; overflow: hidden; */
+  margin: 0px; background-color: #222222; overflow: hidden;
   /* z-index: 999; */
 }
 
