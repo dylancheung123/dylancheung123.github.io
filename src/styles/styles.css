@@ -29,9 +29,6 @@ body {
   flex-direction: column;
   justify-content: space-between;
   color: white;
-  width: 1000px;
-  max-width: 1000px;
-  min-width: 700px;
   margin: 60px 0 0 0;
 } 
 
@@ -120,6 +117,6 @@ body {
 /* On screens that are 900px or more, set the background color to blue */
 @media only screen and (min-width: 850px) {
   .container {
-    max-width: 660px;
+    max-width: 800px;
   }
 }
