@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import threeEntryPoint from '../threeEntryPoint'
-import '../styles/BackgroundAnimation.css'
+import threeEntryPoint from './threeEntryPoint'
+import '../styles/ThreeContainer.css'
 
 export default class ThreeContainer extends Component {
     componentDidMount() {
@@ -8,7 +8,7 @@ export default class ThreeContainer extends Component {
     }
     render () {
         return (
-          <div ref={element => this.threeRootElement = element} />
+          <div className={'animation'} ref={element => this.threeRootElement = element} />
         );
     }
   }
