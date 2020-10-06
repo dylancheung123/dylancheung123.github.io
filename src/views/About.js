@@ -1,7 +1,6 @@
 import React from 'react'
-import '../styles/styles.css'
 
-export default class AboutMe extends React.Component {
+export default class About extends React.Component {
     render(){
         return(
             <div className="page">
