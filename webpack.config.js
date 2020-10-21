@@ -20,25 +20,25 @@ module.exports = {
         exclude: /node_modules/,
         use: ['style-loader', 'css-loader'],
       },
-      {
-        test: /\.(jpg|png|jpe?g|gif)$/i,
-        exclude: /node_modules/,
-        use: [
-          {
-            loader: 'file-loader',
-          },
-        ],
-      },
       // {
-      //   test: /\.(png|jp(e*)g|svg)$/,  
-      //   use: [{
-      //     loader: 'url-loader',
-      //     options: { 
-      //       limit: 8000, // Convert images < 8kb to base64 strings
-      //       // name: 'images/.[ext]'
-      //     } 
-      //   }]
+      //   test: /\.(jpg|png|jpe?g|gif)$/i,
+      //   exclude: /node_modules/,
+      //   use: [
+      //     {
+      //       loader: 'file-loader',
+      //     },
+      //   ],
       // },
+      {
+        test: /\.(png|jp(e*)g|svg)$/,  
+        use: [{
+          loader: 'url-loader',
+          options: { 
+            limit: 8000, // Convert images < 8kb to base64 strings
+            // name: 'images/.[ext]'
+          } 
+        }]
+      },
     ]
   },
   devServer: {

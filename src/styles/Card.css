@@ -6,12 +6,22 @@
   padding: 1%;
   background-color: rgb(24, 23, 23);
   border-radius: 1%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .card-title {
   font-size: medium;
   color: lightgray;
-  padding: 5%;
+  padding: 5% 5% 10% 5%;
+  width: 90%;
+}
+
+.card-thumbnail {
+  width: 60%;
+  height: 40%;
+  cursor: pointer;
 }
 
 .card-description {
