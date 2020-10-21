@@ -1,0 +1,21 @@
+.card {
+  width: 30%;
+  height: 30%;
+  /* outline: 2px solid black; */
+  margin: 0.666%;
+  padding: 1%;
+  background-color: rgb(24, 23, 23);
+  border-radius: 1%;
+}
+
+.card-title {
+  font-size: medium;
+  color: lightgray;
+  padding: 5%;
+}
+
+.card-description {
+  font-size: small;
+  color: lightgray;
+  padding: 5%;
+}
