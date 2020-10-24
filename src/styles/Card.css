@@ -1,0 +1,42 @@
+.card {
+  width: 30%;
+  height: 30%;
+  /* outline: 2px solid black; */
+  margin: 0.666%;
+  padding: 1%;
+  background-color: rgb(24, 23, 23);
+  border-radius: 1%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card-title {
+  font-size: medium;
+  color: lightgray;
+  padding: 5% 5% 10% 5%;
+  width: 90%;
+}
+
+.card-link {
+  width: 50%;
+  height: 40%;
+}
+
+.card-link .card-thumbnail{
+  width: 100%;
+  height: 100%;
+}
+
+.card-thumbnail {
+  width: 60%;
+  height: 40%;
+  cursor: pointer;
+}
+
+.card-description {
+  font-size: small;
+  color: lightgray;
+  padding: 5%;
+  align-self: start;
+}

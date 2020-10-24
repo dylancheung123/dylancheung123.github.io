@@ -4,7 +4,8 @@
   align-items: center;
   justify-content: flex-end;
   color: white;
-  padding: 20px;
+  width: 95%;
+  height: 5%;
 }
 
 .split {
