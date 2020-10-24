@@ -6,7 +6,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, './'),
     filename: 'dist/bundle.js',
-    publicPath: '/'
+    publicPath: 'https://dylancheung123.github.io/'
   },
   module: {
     rules: [
