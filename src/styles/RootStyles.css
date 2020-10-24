@@ -1,3 +1,5 @@
+@import "~react-image-gallery/styles/css/image-gallery.css";
+
 @import 'styles.css';
 @import 'BackgroundAnimation.css';
 @import 'Header.css';
