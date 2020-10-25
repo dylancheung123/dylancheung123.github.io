@@ -51,7 +51,7 @@ module.exports = {
         template: './index.html'
     }),
     new webpack.DefinePlugin({
-      'process.env.PUBLIC_URL': JSON.stringify('https://dylancheung123.github.io/https://dylancheung123.github.io/')
+      'process.env.PUBLIC_URL': JSON.stringify('/https://dylancheung123.github.io/https://dylancheung123.github.io/')
     }),
   ]
 };
