@@ -10,7 +10,7 @@ import Photography from './views/Photography'
 import './styles/RootStyles.css'
 
 const App = (
-  <Router className="router">
+  <Router className="router" basename={`${process.env.PUBLIC_URL}/`}>
     <Switch>
       <Route path="/" component={withHeader(Home)} exact={true}/>
       <Route path="/projects" component={withHeader(Projects)}/>

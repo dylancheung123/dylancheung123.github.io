@@ -1,5 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const webpack = require('webpack')
 
 module.exports = {
   entry: './src/App.js',
@@ -48,6 +49,9 @@ module.exports = {
     new HtmlWebpackPlugin({
         filename: 'index.html',
         template: './index.html'
-    })
+    }),
+    new webpack.DefinePlugin({
+      'process.env.PUBLIC_URL': JSON.stringify('https://dylancheung123.github.io/https://dylancheung123.github.io/')
+    }),
   ]
 };
