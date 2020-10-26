@@ -7,7 +7,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, './'),
     filename: 'dist/bundle.js',
-    publicPath: 'https://dylancheung123.github.io/'
+    publicPath: '/'
   },
   module: {
     rules: [
@@ -50,8 +50,8 @@ module.exports = {
         filename: 'index.html',
         template: './index.html'
     }),
-    new webpack.DefinePlugin({
-      'process.env.PUBLIC_URL': JSON.stringify('/https://dylancheung123.github.io/https://dylancheung123.github.io/')
-    }),
+    // new webpack.DefinePlugin({
+    //   'process.env.PUBLIC_URL': JSON.stringify('https://dylancheung123.github.io/')
+    // }),
   ]
 };

@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import { HashRouter as Router, Switch, Route } from "react-router-dom"
 import { withHeader } from './components/withHeader'
 
 import Home from './views/Home'
@@ -10,7 +10,7 @@ import Photography from './views/Photography'
 import './styles/RootStyles.css'
 
 const App = (
-  <Router className="router" basename={`${process.env.PUBLIC_URL}/`}>
+  <Router className="router">
     <Switch>
       <Route path="/" component={withHeader(Home)} exact={true}/>
       <Route path="/projects" component={withHeader(Projects)}/>
