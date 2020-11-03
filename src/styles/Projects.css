@@ -1,0 +1,14 @@
+.projects-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 80%;
+  height: 80%;
+  margin: 3% 0;
+  align-items: flex-start;
+  overflow: auto;
+}
+
+.projects-container::-webkit-scrollbar {
+  display: none;
+}

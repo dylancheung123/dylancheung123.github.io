@@ -8,6 +8,7 @@ import openWindow from '../images/openWindow.jpg'
 import stars1 from '../images/stars1.jpg'
 import craterLake from '../images/craterLake.jpg'
 import clouds1 from '../images/clouds1.jpg'
+import { vscoLink } from '../helpers'
 
 export default class Photography extends React.Component {
   
@@ -28,10 +29,6 @@ export default class Photography extends React.Component {
     this.setSelected(null)
   }
 
-  vscoLink(photoId){
-    return `https://vsco.co/dylan-cheung/media/${photoId}`
-  }
-
   render(){
     // if (!this.state.selected){ // Table of cards
       const cardA = { 
@@ -43,43 +40,43 @@ export default class Photography extends React.Component {
         title: 'The Wave',
         description: 'Coconino County, AZ | Only a 4.5% chance of winning a permit to visit for a day.',
         thumbnail: wave,
-        link: this.vscoLink('5f55818b92fdab666a3f7c63')
+        link: vscoLink('5f55818b92fdab666a3f7c63')
       }
       const cardC = { 
         title: 'Wooden Structure',
         description: 'Albany, NY | A photo of depth, texture, and shades of brown. ',
         thumbnail: woodenStructure,
-        link: this.vscoLink('5f11fc61afeac415d2107ad9')
+        link: vscoLink('5f11fc61afeac415d2107ad9')
       }
       const cardD = { 
         title: 'Forest Alley',
         description: 'Saigon, Vietnam | The neighbors of our Airbnb loved plants.',
         thumbnail: forestAlley,
-        link: this.vscoLink('5f0e4825e4a5a222c2457299')
+        link: vscoLink('5f0e4825e4a5a222c2457299')
       }
       const cardE = { 
         title: 'An Open Window',
         description: 'Saigon, Vietnam | Grabbed bánh mì early in the morning. Took a photo directly across from our table. ',
         thumbnail: openWindow,
-        link: this.vscoLink('5f0cfdf59310f54d798dba97')
+        link: vscoLink('5f0cfdf59310f54d798dba97')
       }
       const cardF = { 
         title: 'Stars',
         description: 'A collection of my attempts at astrophotography.',
         thumbnail: stars1,
-        link: this.vscoLink('5f55830592fdab666a3f7c67')
+        link: vscoLink('5f55830592fdab666a3f7c67')
       }
       const cardG = { 
         title: 'Crater Lake',
         description: 'Klamath County, OR | Almost endless mountains at sunrise.',
         thumbnail: craterLake,
-        link: this.vscoLink('5f11fc4cafeac415d2107ad6')
+        link: vscoLink('5f11fc4cafeac415d2107ad6')
       }
       const cardH = { 
         title: 'Clouds',
         description: 'A collection of clouds, one of the most photogenic parts of nature.',
         thumbnail: clouds1,
-        link: this.vscoLink('5f55828392fdab666a3f7c66')
+        link: vscoLink('5f55828392fdab666a3f7c66')
       }
       const cards = [  cardB, cardC, cardD, cardE, cardF, cardG, cardH, ]
       let i = 0

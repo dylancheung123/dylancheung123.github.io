@@ -5,6 +5,7 @@
 @import 'Header.css';
 @import 'Card.css';
 @import 'Photography.css';
+@import 'Projects.css';
 
 .app {
   display: flex;
