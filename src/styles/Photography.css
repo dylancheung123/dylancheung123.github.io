@@ -3,10 +3,10 @@
   flex-direction: row;
   flex-wrap: wrap;
   width: 80%;
-  height: 80%;
-  margin: 3% 0;
-  align-items: flex-start;
+  height: 90%;
+  margin: 2% 0;
   overflow: auto;
+  max-width: 1000px;
 }
 
 .photography-container::-webkit-scrollbar {

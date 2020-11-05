@@ -8,7 +8,7 @@ export default class Projects extends React.Component {
   render(){
     const cardA = { 
       title: 'Game Controller',
-      description: 'Based on the Azeron Game Controller, which allows pc users to have analog movement in FPS games instead of WASD movement.',
+      description: '3D printed controller to allow analog instead of WASD movement for pc games.',
       thumbnail: gameControllerThumbnail,
       link: githubLink('gameController')
     }
