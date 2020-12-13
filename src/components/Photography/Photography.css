@@ -1,5 +1,13 @@
 .photography-container {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  overflow: auto;
+}
+
+.photography-grid {
+  display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   width: 80%;
@@ -9,6 +17,11 @@
   max-width: 1000px;
 }
 
-.photography-container::-webkit-scrollbar {
+.photography-grid::-webkit-scrollbar {
   display: none;
+}
+
+.image-gallery{
+  height: 100%; 
+  background-color: red;
 }

@@ -3,6 +3,7 @@ import Card from '../Card/Card'
 import { githubLink } from '../../helpers'
 
 import gameControllerThumbnail from '../../images/gameController.jpg'
+import './Projects.css'
 
 export default class Projects extends React.Component {
   render(){
