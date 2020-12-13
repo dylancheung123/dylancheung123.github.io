@@ -4,10 +4,13 @@
   order: 3;
   justify-content: space-between;
   padding: 0px 20px;
+  margin-top: 16px;
   margin-bottom: 16px;
+  min-height: 48px;
+  justify-self: flex-end;
 }
 
-.icons{
+.icons {
   display: flex;
   order: 1;
   align-items: center;

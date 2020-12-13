@@ -78,6 +78,7 @@ export default class Photography extends React.Component {
       <div className='photography-container'>
         {/* <div className='image-gallery'>  */}
           <AwesomeSlider
+            className='awesome-slider'
             // startupScreen={StartupScreen}
             media={[
               { source: wave },
