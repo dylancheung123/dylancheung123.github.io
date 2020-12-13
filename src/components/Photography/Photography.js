@@ -1,16 +1,15 @@
 import React from 'react'
-import Card from '../components/Card'
-// import PhotographyPage from './PhotographyPage'
-import wave from '../images/wave1.jpg'
-import woodenStructure from '../images/woodenStructure.jpg'
-import forestAlley from '../images/forestAlley.jpg'
-import openWindow from '../images/openWindow.jpg'
-import stars1 from '../images/stars1.jpg'
-import craterLake from '../images/craterLake.jpg'
-import clouds1 from '../images/clouds1.jpg'
-import { vscoLink } from '../helpers'
+import Card from '../Card/Card'
+import wave from '../../images/wave1.jpg'
+import woodenStructure from '../../images/woodenStructure.jpg'
+import forestAlley from '../../images/forestAlley.jpg'
+import openWindow from '../../images/openWindow.jpg'
+import stars1 from '../../images/stars1.jpg'
+import craterLake from '../../images/craterLake.jpg'
+import clouds1 from '../../images/clouds1.jpg'
+import { vscoLink } from '../../helpers'
 
-export default class Photography extends React.Component {
+export default class Photography extends React.Component { 
   
   constructor(){
     super()

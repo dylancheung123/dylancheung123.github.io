@@ -1,8 +1,8 @@
 import React from 'react'
-import Card from '../components/Card'
-import { githubLink } from '../helpers'
+import Card from '../Card/Card'
+import { githubLink } from '../../helpers'
 
-import gameControllerThumbnail from '../images/gameController.jpg'
+import gameControllerThumbnail from '../../images/gameController.jpg'
 
 export default class Projects extends React.Component {
   render(){

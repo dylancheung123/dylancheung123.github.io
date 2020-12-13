@@ -1,0 +1,26 @@
+.link-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;  
+  color: var(--text-color);
+  width: 100%;
+  margin-top: 16px;
+  padding-right: 40px;
+}
+
+.split {
+  cursor: default;
+  padding: 0px 5px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: var(--text-color);
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+  /* font-weight: bold; */
+}
+

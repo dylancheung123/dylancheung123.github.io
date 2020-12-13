@@ -22,23 +22,6 @@ export default class Home extends React.Component {
                             </p>
                         </div>
                     </div>
-                    
-                    <div className="footer">
-                        <div className="icons">
-                            <a href="https://github.com/dylancheung123/"> 
-                                <i className="fab fa-github-square fa-2x"></i>
-                            </a>
-                            <a href="https://www.linkedin.com/in/dylancheung123/"> 
-                                <i className="fab fa-linkedin fa-2x"></i>
-                            </a>
-                            <a href="https://www.instagram.com/dylancheung_/" className="icon">
-                                <i className="fab fa-instagram fa-2x"></i>
-                            </a>
-                        </div>
-                        <div className="resume">
-                            <a href="./resume/DylanCheungResume.pdf" target="_blank"> resume </a>
-                        </div>
-                    </div>
                 </div>
             </div>
         )

@@ -1,6 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const webpack = require('webpack')
+// const webpack = require('webpack')
 
 module.exports = {
   entry: './src/App.js',
@@ -36,7 +36,7 @@ module.exports = {
           loader: 'url-loader',
           options: { 
             limit: 8000, // Convert images < 8kb to base64 strings
-            // name: 'images/.[ext]'
+            name: 'dist/images/[name].[ext]'
           } 
         }]
       },

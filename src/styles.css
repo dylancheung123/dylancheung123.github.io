@@ -1,3 +1,11 @@
+/* Variables */
+:root {
+  --text-color: rgb(66, 66, 66);
+  --himarley-color: #F9685D;
+  --himarley-color-faded: rgb(251, 155, 148);
+}
+
+/* Generic CSS */
 html, body {
   height: 100%;
   width: 100%;
@@ -8,16 +16,20 @@ html, body {
   height: 100%;
 }
 
-.app {
+.with-app, .with-header, .with-footer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
   height: 100%;
 }
 
-/* Set the background color of body to tan */
 body {
-  background: #3a3a3b;
+  background: lightblue; 
   font-family: 'Rubik', sans-serif;
   overflow: hidden; 
+  min-width: 1250px;
 }
 
 .page {
@@ -33,7 +45,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  color: white;
+  color: var(--text-color);
   margin: 150px 0 0 0;
 } 
 
@@ -67,40 +79,8 @@ body {
 }
 
 .bio a {
-  color: #F9685D;
+  color: var(--text-color);
   text-decoration: none;
-}
-
-.footer {
-  display: flex;
-  order: 3;
-  justify-content: space-between;
-  padding: 0px 20px;
-}
-
-.icons{
-  display: flex;
-  order: 1;
-  align-items: center;
-}
-
-.icons a{
-  color: white;
-  text-decoration: none;
-  padding: 10px;
-}
-
-.resume {
-  display: flex;
-  order: 2;
-  align-items: center;
-}
-
-.resume a{ 
-  color: white;
-  text-decoration: none;
-  font-size: 1em;
-  padding: 10px;
 }
 
 /* On screens that are 600px or more, set the background color to olive */
