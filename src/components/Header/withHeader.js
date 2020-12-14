@@ -7,12 +7,14 @@ export const withHeader = WrappedComponent => {
     render(){
       return (
         <div className='with-header'>
-          <div className="link-container">
-            <Link className="nav-link" to="/">Home</Link>
-            <div className="split"> / </div>
-            <Link className="nav-link" to="/projects">Projects</Link>
-            <div className="split"> / </div>
-            <Link className="nav-link" to="/photography">Photography</Link>
+          <div className='header'>
+            <div className="link-container">
+              <Link className="nav-link" to="/">Home</Link>
+              <div className="split"> / </div>
+              <Link className="nav-link" to="/projects">Projects</Link>
+              <div className="split"> / </div>
+              <Link className="nav-link" to="/photography">Photography</Link>
+            </div>
           </div>
           <WrappedComponent/>
         </div>
