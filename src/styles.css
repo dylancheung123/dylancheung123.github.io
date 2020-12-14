@@ -1,6 +1,7 @@
 /* Variables */
 :root {
-  --text-color: rgb(66, 66, 66);
+  --background-color: rgb(80, 176, 255);
+  --text-color: rgb(255, 255, 255);
   --himarley-color: #F9685D;
   --himarley-color-faded: rgb(251, 155, 148);
 }
@@ -27,7 +28,7 @@ html, body {
 }
 
 .with-footer {
- width: 100 vw;
+ width: 100%;
 }
 
 .with-header, .with-footer {
@@ -36,7 +37,7 @@ html, body {
 }
 
 body {
-  background: lightblue; 
+  background: var(--background-color); 
   font-family: 'Rubik', sans-serif;
   overflow: hidden; 
   min-width: 1250px;

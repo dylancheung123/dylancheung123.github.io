@@ -37,5 +37,15 @@
   height: 700px;
   width: 933px !important;
   --loader-bar-color: white !important;
-  --loader-bar-height: 0px !important;
+  --loader-bar-height: 3px !important;
+  /* --control-bullet-color: none !important;
+  --control-bullet-active-color: none !important;
+  --content-background-color: none !important;
+  --control-button-width: 0 !important;
+  --control-button-height: 0 !important; */
+}
+
+.awssld__bullets{
+  max-width: 0;
+  max-height: 0;
 }
