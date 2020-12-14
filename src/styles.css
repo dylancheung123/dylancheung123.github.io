@@ -28,6 +28,8 @@ html, body {
 
 .with-header, .with-footer {
   position: fixed;
+  width: 100%;
+  height: 100%;
 }
 
 body {
