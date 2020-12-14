@@ -1,51 +1,7 @@
-.photography-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  /* overflow-y: auto; */
-  height: 100%;
-  padding: 32px;
-}
-
-.photography-grid {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 80%;
-  height: 90%;
-  min-height: 90%;
-  margin: 2% 0;
-  /* overflow: auto; */
-  max-width: 1000px;
-}
-
-.photography-grid::-webkit-scrollbar {
-  display: none;
-}
-
-.image-gallery {
-  height: 100px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  background-color: red;
-}
-
 .awesome-slider {
-  height: 700px;
-  width: 933px !important;
+  position: absolute;
+  height: 100%;
+  width: 100% !important;
   --loader-bar-color: white !important;
   --loader-bar-height: 3px !important;
-  /* --control-bullet-color: none !important;
-  --control-bullet-active-color: none !important;
-  --content-background-color: none !important;
-  --control-button-width: 0 !important;
-  --control-button-height: 0 !important; */
-}
-
-.awssld__bullets{
-  max-width: 0;
-  max-height: 0;
 }

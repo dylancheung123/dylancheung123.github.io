@@ -16,22 +16,24 @@ export default class Projects extends React.Component {
     const cards = [ cardA ]
     let i = 0
     return (
-      <div className="projects-container">
-        {
-          cards.map( card => {
-            i++
-            return (
-              <Card 
-                key={card.title+i} 
-                title={card.title} 
-                description={card.description} 
-                thumbnail={card.thumbnail} 
-                setSelected={card.setSelected}
-                link={card.link}
-              />
-            )
-          })
-        }
+      <div className='project-container'>
+        <div className="project-gallery">
+          {
+            cards.map( card => {
+              i++
+              return (
+                <Card 
+                  key={card.title+i} 
+                  title={card.title} 
+                  description={card.description} 
+                  thumbnail={card.thumbnail} 
+                  setSelected={card.setSelected}
+                  link={card.link}
+                />
+              )
+            })
+          }
+        </div>
       </div>
     )
   }   

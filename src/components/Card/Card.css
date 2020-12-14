@@ -1,15 +1,17 @@
 .card {
-  width: 30%;
-  height: 30%;
-  margin: 0.666%;
-  padding: 1%;
-  background-color: rgb(24, 23, 23);
+  width: 300px;
+  height: 245px;
+  margin: 6px;
+  padding: 6px;
+  background-color: rgba(51, 51, 51, 0.9);
   border-radius: 1%;
   display: flex;
   flex-direction: column;
   align-items: center;
   max-width: 320px;
   min-width: 300px;
+  min-height: 245px;
+  max-height: 245px;
 }
 
 .card-title {

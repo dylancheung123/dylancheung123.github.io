@@ -1,6 +1,5 @@
 /* Variables */
 :root {
-  --background-color: rgb(80, 176, 255);
   --text-color: rgb(255, 255, 255);
   --himarley-color: #F9685D;
   --himarley-color-faded: rgb(251, 155, 148);
@@ -27,74 +26,18 @@ html, body {
   height: 100%;
 }
 
-.with-footer {
- width: 100%;
-}
-
 .with-header, .with-footer {
-  position: relative;
-  z-index: 1;
+  position: fixed;
 }
 
 body {
-  background: var(--background-color); 
+  background: none;
   font-family: 'Rubik', sans-serif;
   overflow: hidden; 
   min-width: 1250px;
 }
 
-.page {
-  height: 100%; 
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  color: var(--text-color);
-  margin: 150px 0 0 0;
-} 
-
-.bio-header {
-  display: flex;
-  order: 1;
-  flex-direction: column;
-}
-
-.title {
-  display: flex;
-  order: 1;
-  padding: 20px;
-  font-size: 3em;
-}
-
-.center {
-  display: flex;
-  order: 2;
-  justify-content: center;
-}
-
-.bio {
-  display: flex;
-  flex-direction: column;
-  padding: 0px 20px;
-}
-
-.bio p {
-  font-size: 1.2em;
-}
-
-.bio a {
-  color: var(--text-color);
-  text-decoration: none;
-}
-
-/* On screens that are 600px or more, set the background color to olive */
+/* On screens that are 600px or more*/
 @media only screen and (min-width: 600px){
   body {
     align-items: center;
@@ -104,7 +47,7 @@ body {
   }
 }
 
-/* On screens that are 900px or more, set the background color to blue */
+/* On screens that are 900px or more*/
 @media only screen and (min-width: 850px) {
   .container {
     max-width: 800px;

@@ -1,13 +1,16 @@
 
 .footer {
+  position: absolute;
+  z-index: 99;
   display: flex;
+  bottom: 0;
   order: 3;
-  justify-content: space-between;
-  padding: 0px 20px;
-  margin-top: 16px;
-  margin-bottom: 16px;
+  justify-content: center;
+  padding: 8px 20px;
   min-height: 48px;
-  justify-self: flex-end;
+  width: 100%;
+  /* background-color: rgba(128, 128, 128, 0.5); */
+  margin-bottom: 0;
 }
 
 .icons {
