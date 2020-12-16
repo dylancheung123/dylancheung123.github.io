@@ -3,6 +3,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 // const webpack = require('webpack')
 
 module.exports = {
+  performance : {
+    hints : false
+  },        
   entry: './src/App.js',
   output: {
     path: path.join(__dirname, './'),

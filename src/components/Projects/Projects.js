@@ -4,8 +4,27 @@ import { githubLink } from '../../helpers'
 
 import gameControllerThumbnail from '../../images/thumbnails/gameController.jpg'
 import './Projects.css'
+import * as THREE from 'three'
+import BIRDS from 'vanta/dist/vanta.birds.min'
 
 export default class Projects extends React.Component {
+
+  constructor(){
+    super()
+    this.vantaRef = React.createRef()
+  }
+
+  componentWillUnmount() {
+    if (this.vantaEffect) this.vantaEffect.destroy()
+  }
+
+  componentDidMount() {
+    this.vantaEffect = BIRDS({
+      el: this.vantaRef.current,
+      THREE: THREE, // use a custom THREE when initializing
+    })
+  }
+
   render(){
     const cardA = { 
       title: 'Game Controller',
@@ -16,7 +35,7 @@ export default class Projects extends React.Component {
     const cards = [ cardA ]
     let i = 0
     return (
-      <div className='project-container'>
+      <div ref={this.vantaRef} className='project-container'>
         <div className="project-gallery">
           {
             cards.map( card => {

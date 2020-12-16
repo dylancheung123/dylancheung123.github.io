@@ -1,4 +1,4 @@
-/* @import './components/Home/Home.css'; */
+@import './components/Home/Home.css';
 
 /* Variables */
 :root {
@@ -11,7 +11,7 @@
 html, body {
   height: 100%;
   width: 100%;
-  margin: 0;
+  margin: 0; 
 }
 
 #root {
@@ -38,22 +38,27 @@ body {
   background: none;
   font-family: 'Rubik', sans-serif;
   overflow: hidden; 
-  min-width: 1250px;
 }
 
-/* On screens that are 600px or more*/
-@media only screen and (min-width: 600px){
-  body {
-    align-items: center;
-  }
+/* On screens that are 650px to 850px (width of iPhone SE to tablet?)*/
+@media only screen and (min-width: 800px){
   .container {
-    justify-content: center;
+    width: 500px;
+    padding: 40px 40px 80px 40px; 
   }
 }
 
-/* On screens that are 900px or more*/
-@media only screen and (min-width: 850px) {
+/* Tablet / Smaller desktop */
+@media only screen and (min-width: 900px) {
   .container {
-    max-width: 800px;
+    width: 700px;
+  }
+}
+
+
+/* Desktop */
+@media only screen and (min-width: 1375px) {
+  .container {
+    width: 800px;
   }
 }
