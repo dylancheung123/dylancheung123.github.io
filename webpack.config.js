@@ -1,23 +1,27 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+// const webpack = require('webpack')
 
 module.exports = {
+  performance : {
+    hints : false
+  },        
   entry: './src/App.js',
   output: {
     path: path.join(__dirname, './'),
     filename: 'dist/bundle.js',
-    publicPath: 'https://dylancheung123.github.io/'
+    publicPath: '/'
   },
   module: {
     rules: [
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        // exclude: /node_modules/,
         loader: 'babel-loader'
       },
       {
         test: /\.css$/i,
-        exclude: /node_modules/,
+        // exclude: /node_modules/,
         use: ['style-loader', 'css-loader'],
       },
       // {
@@ -35,7 +39,7 @@ module.exports = {
           loader: 'url-loader',
           options: { 
             limit: 8000, // Convert images < 8kb to base64 strings
-            // name: 'images/.[ext]'
+            name: 'dist/images/[name].[ext]'
           } 
         }]
       },
@@ -48,6 +52,9 @@ module.exports = {
     new HtmlWebpackPlugin({
         filename: 'index.html',
         template: './index.html'
-    })
+    }),
+    // new webpack.DefinePlugin({
+    //   'process.env.PUBLIC_URL': JSON.stringify('https://dylancheung123.github.io/')
+    // }),
   ]
 };

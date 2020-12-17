@@ -1,0 +1,7 @@
+.awesome-slider {
+  position: absolute;
+  height: 100%;
+  width: 100% !important;
+  --loader-bar-color: white !important;
+  --loader-bar-height: 3px !important;
+}
