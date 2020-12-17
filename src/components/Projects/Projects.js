@@ -22,6 +22,20 @@ export default class Projects extends React.Component {
     this.vantaEffect = BIRDS({
       el: this.vantaRef.current,
       THREE: THREE, // use a custom THREE when initializing
+      mouseControls: true,
+      touchControls: true,
+      gyroControls: true,
+      minHeight: 200.00,
+      minWidth: 200.00,
+      scale: 1.00,
+      scaleMobile: 1.00,
+      backgroundColor: 0x6795d2,
+      color1: 0xffffff,
+      color2: 0x0,
+      colorMode: "variance",
+      wingSpan: 10.00,
+      separation: 30.00,
+      alignment: 21.00
     })
   }
 

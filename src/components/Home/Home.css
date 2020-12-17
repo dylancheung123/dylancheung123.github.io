@@ -15,7 +15,6 @@
   flex-direction: column;
   justify-content: space-between;
   color: var(--text-color);
-  margin: 0 0 150px 0;
   background-color: rgba(41, 40, 40, 0.75);
   border-radius: 5px;
   padding: 20px 20px 40px 20px; 
