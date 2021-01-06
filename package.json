@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/dylancheung123/dylancheung123.github.io#readme",
   "dependencies": {
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "react": "^16.13.0",
     "react-awesome-slider": "^4.1.0",
     "react-dom": "^16.13.0",
