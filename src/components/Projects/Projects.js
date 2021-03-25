@@ -46,7 +46,7 @@ export default class Projects extends React.Component {
       thumbnail: gameControllerThumbnail,
       link: githubLink('gameController')
     }
-    const cards = [ cardA ]
+    const cards = [ cardA,]
     let i = 0
     return (
       <div ref={this.vantaRef} className='project-container'>

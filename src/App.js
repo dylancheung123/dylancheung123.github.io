@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { HashRouter as Router, Switch, Route } from "react-router-dom"
-import { withHeader } from './components/Header/withHeader'
-import { withFooter } from './components/Footer/withFooter'
+import { Header } from './components/Header/Header'
+import { Footer } from './components/Footer/Footer'
 
 import Home from './components/Home/Home'
 import Projects from './components/Projects/Projects'
@@ -14,13 +14,17 @@ const withApp = WrappedComponent => {
   return class extends React.Component {
     render() {
       return (
-        <div className='with-app'><WrappedComponent/></div>
+        <div className='app'>
+          <Header/>
+          <WrappedComponent/>
+          <Footer/>
+        </div>
       )
     }
   }
 }
 
-const regularPage = WrappedComponent => withApp(withHeader(withFooter(WrappedComponent)))
+const regularPage = WrappedComponent => withApp(WrappedComponent)
 
 const App = (
   <Router className="router">
