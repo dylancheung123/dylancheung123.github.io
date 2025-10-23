@@ -1,0 +1,260 @@
+import * as THREE from 'three';
+import { GlobeSection } from './types';
+
+export class InteractiveGlobe {
+  private scene: THREE.Scene;
+  private camera: THREE.PerspectiveCamera;
+  private renderer: THREE.WebGLRenderer;
+  private globe: THREE.Mesh | null = null;
+  private textPoints: THREE.Mesh[] = [];
+  private isDragging: boolean = false;
+  private mouseX: number = 0;
+  private mouseY: number = 0;
+  private rotationX: number = 0;
+  private rotationY: number = 0;
+  private activeSection: string = 'welcome';
+
+  constructor() {
+    this.scene = new THREE.Scene();
+    this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    this.renderer = new THREE.WebGLRenderer({ 
+      canvas: document.getElementById('globe-canvas') as HTMLCanvasElement,
+      antialias: true,
+      alpha: true
+    });
+    
+    this.init();
+  }
+  
+  private init(): void {
+    this.setupRenderer();
+    this.createGlobe();
+    this.createTextPoints();
+    this.setupLighting();
+    this.setupEventListeners();
+    this.animate();
+  }
+  
+  private setupRenderer(): void {
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setClearColor(0x000000, 0);
+    this.camera.position.z = 4;
+  }
+  
+  private createGlobe(): void {
+    const geometry = new THREE.SphereGeometry(1.5, 32, 32);
+    
+    const material = new THREE.MeshPhongMaterial({
+      color: 0x667eea,
+      transparent: true,
+      opacity: 0.9,
+      shininess: 100
+    });
+    
+    this.globe = new THREE.Mesh(geometry, material);
+    
+    // Ensure globe starts with zero rotation
+    this.globe.rotation.x = 0;
+    this.globe.rotation.y = 0;
+    this.globe.rotation.z = 0;
+    
+    this.scene.add(this.globe);
+  }
+  
+  private createTextPoints(): void {
+    const sections: GlobeSection[] = [
+      { id: 'about', lat: 0, lon: 0, text: 'About' },
+      { id: 'projects', lat: 30, lon: 90, text: 'Projects' },
+      { id: 'skills', lat: -30, lon: 180, text: 'Skills' },
+      { id: 'contact', lat: 0, lon: -90, text: 'Contact' }
+    ];
+    
+    sections.forEach(section => {
+      const position = this.latLonToVector3(section.lat, section.lon, 1.5);
+      
+      const markerGeometry = new THREE.SphereGeometry(0.05, 8, 8);
+      const markerMaterial = new THREE.MeshPhongMaterial({ 
+        color: 0xffffff,
+        emissive: 0x444444
+      });
+      const marker = new THREE.Mesh(markerGeometry, markerMaterial);
+      marker.position.copy(position);
+      marker.userData = { sectionId: section.id };
+      
+      this.createTextOnSphere(section.text, position, section.id);
+      
+      if (this.globe) {
+        this.globe.add(marker);
+      }
+      this.textPoints.push(marker);
+    });
+  }
+  
+  private createTextOnSphere(text: string, position: THREE.Vector3, sectionId: string): void {
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    if (!context) return;
+    
+    canvas.width = 256;
+    canvas.height = 64;
+    
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.font = 'bold 24px Arial';
+    context.fillStyle = 'white';
+    context.textAlign = 'center';
+    context.textBaseline = 'middle';
+    context.fillText(text, canvas.width / 2, canvas.height / 2);
+    
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.needsUpdate = true;
+    
+    const material = new THREE.MeshBasicMaterial({
+      map: texture,
+      transparent: true,
+      alphaTest: 0.1
+    });
+    
+    const geometry = new THREE.PlaneGeometry(0.3, 0.1);
+    const textMesh = new THREE.Mesh(geometry, material);
+    
+    textMesh.position.copy(position);
+    textMesh.lookAt(0, 0, 0);
+    
+    if (this.globe) {
+      this.globe.add(textMesh);
+    }
+  }
+  
+  private latLonToVector3(lat: number, lon: number, radius: number): THREE.Vector3 {
+    const phi = (90 - lat) * (Math.PI / 180);
+    const theta = (lon + 180) * (Math.PI / 180);
+    
+    return new THREE.Vector3(
+      -(radius * Math.sin(phi) * Math.cos(theta)),
+      radius * Math.cos(phi),
+      radius * Math.sin(phi) * Math.sin(theta)
+    );
+  }
+  
+  private setupLighting(): void {
+    const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
+    this.scene.add(ambientLight);
+    
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    directionalLight.position.set(5, 5, 5);
+    this.scene.add(directionalLight);
+  }
+  
+  private setupEventListeners(): void {
+    const canvas = this.renderer.domElement;
+    
+    canvas.addEventListener('mousedown', this.startDrag.bind(this));
+    document.addEventListener('mousemove', this.drag.bind(this));
+    document.addEventListener('mouseup', this.endDrag.bind(this));
+    
+    canvas.addEventListener('touchstart', this.startDrag.bind(this));
+    document.addEventListener('touchmove', this.drag.bind(this));
+    document.addEventListener('touchend', this.endDrag.bind(this));
+    
+    canvas.addEventListener('click', this.onClick.bind(this));
+    
+    window.addEventListener('resize', this.onWindowResize.bind(this));
+  }
+  
+  private startDrag(e: MouseEvent | TouchEvent): void {
+    this.isDragging = true;
+    document.body.classList.add('dragging');
+    
+    const clientX = 'touches' in e ? e.touches[0]?.clientX ?? 0 : e.clientX;
+    const clientY = 'touches' in e ? e.touches[0]?.clientY ?? 0 : e.clientY;
+    
+    this.mouseX = clientX;
+    this.mouseY = clientY;
+  }
+  
+  private drag(e: MouseEvent | TouchEvent): void {
+    if (!this.isDragging) return;
+    
+    e.preventDefault();
+    
+    const clientX = 'touches' in e ? e.touches[0]?.clientX ?? 0 : e.clientX;
+    const clientY = 'touches' in e ? e.touches[0]?.clientY ?? 0 : e.clientY;
+    
+    const deltaX = clientX - this.mouseX;
+    const deltaY = clientY - this.mouseY;
+    
+    this.rotationY += deltaX * 0.01;
+    this.rotationX += deltaY * 0.01;
+    
+    this.rotationX = Math.max(-Math.PI/2, Math.min(Math.PI/2, this.rotationX));
+    
+    this.mouseX = clientX;
+    this.mouseY = clientY;
+    
+    this.updateRotation();
+  }
+  
+  private endDrag(): void {
+    this.isDragging = false;
+    document.body.classList.remove('dragging');
+  }
+  
+  private onClick(e: MouseEvent): void {
+    if (this.isDragging) return;
+    
+    const mouse = new THREE.Vector2();
+    mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    
+    const raycaster = new THREE.Raycaster();
+    raycaster.setFromCamera(mouse, this.camera);
+    
+    const intersects = raycaster.intersectObjects(this.textPoints);
+    
+    if (intersects.length > 0) {
+      const clickedPoint = intersects[0]?.object;
+      if (clickedPoint) {
+        const sectionId = clickedPoint.userData?.sectionId;
+        if (sectionId) {
+          this.showSection(sectionId);
+        }
+      }
+    }
+  }
+  
+  private showSection(sectionId: string): void {
+    document.querySelectorAll('.content').forEach(content => {
+      content.classList.remove('active');
+    });
+    
+    const targetContent = document.getElementById(sectionId);
+    if (targetContent) {
+      targetContent.classList.add('active');
+      this.activeSection = sectionId;
+    }
+  }
+  
+  private updateRotation(): void {
+    if (this.globe) {
+      this.globe.rotation.x = this.rotationX;
+      this.globe.rotation.y = this.rotationY;
+    }
+  }
+  
+  private onWindowResize(): void {
+    this.camera.aspect = window.innerWidth / window.innerHeight;
+    this.camera.updateProjectionMatrix();
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
+  }
+  
+  private animate(): void {
+    requestAnimationFrame(() => this.animate());
+    
+    // Automatic rotation disabled - globe only rotates when user drags
+    // if (!this.isDragging) {
+    //     this.globe.rotation.y += 0.005;
+    // }
+    
+    this.renderer.render(this.scene, this.camera);
+  }
+}

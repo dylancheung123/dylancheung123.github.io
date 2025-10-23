@@ -1,13 +1,13 @@
-// Utility functions for the interactive globe application
+import * as THREE from 'three';
 
 /**
  * Convert latitude and longitude to 3D vector coordinates
- * @param {number} lat - Latitude in degrees
- * @param {number} lon - Longitude in degrees  
- * @param {number} radius - Sphere radius
- * @returns {THREE.Vector3} 3D position vector
+ * @param lat - Latitude in degrees
+ * @param lon - Longitude in degrees  
+ * @param radius - Sphere radius
+ * @returns 3D position vector
  */
-function latLonToVector3(lat, lon, radius) {
+export function latLonToVector3(lat: number, lon: number, radius: number): THREE.Vector3 {
     const phi = (90 - lat) * (Math.PI / 180);
     const theta = (lon + 180) * (Math.PI / 180);
     
@@ -20,12 +20,12 @@ function latLonToVector3(lat, lon, radius) {
 
 /**
  * Create a text texture from canvas
- * @param {string} text - Text to render
- * @param {number} width - Canvas width
- * @param {number} height - Canvas height
- * @returns {THREE.CanvasTexture} Text texture
+ * @param text - Text to render
+ * @param width - Canvas width
+ * @param height - Canvas height
+ * @returns Text texture
  */
-function createTextTexture(text, width = 256, height = 64) {
+export function createTextTexture(text: string, width: number = 256, height: number = 64): THREE.CanvasTexture | null {
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
     if (!context) return null;
@@ -48,13 +48,13 @@ function createTextTexture(text, width = 256, height = 64) {
 
 /**
  * Debounce function to limit function calls
- * @param {Function} func - Function to debounce
- * @param {number} wait - Wait time in milliseconds
- * @returns {Function} Debounced function
+ * @param func - Function to debounce
+ * @param wait - Wait time in milliseconds
+ * @returns Debounced function
  */
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
+export function debounce<T extends (...args: any[]) => any>(func: T, wait: number): (...args: Parameters<T>) => void {
+    let timeout: NodeJS.Timeout;
+    return function executedFunction(...args: Parameters<T>) {
         const later = () => {
             clearTimeout(timeout);
             func(...args);
@@ -63,8 +63,3 @@ function debounce(func, wait) {
         timeout = setTimeout(later, wait);
     };
 }
-
-// Export functions for use in other modules
-window.latLonToVector3 = latLonToVector3;
-window.createTextTexture = createTextTexture;
-window.debounce = debounce;
