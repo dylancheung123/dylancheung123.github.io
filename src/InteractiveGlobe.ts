@@ -15,6 +15,9 @@ export class InteractiveGlobe {
   private activeSection: string = 'welcome';
   private dragStartPoint: THREE.Vector3 | null = null;
   private dragCurrentPoint: THREE.Vector3 | null = null;
+  private isTwoFingerGesture: boolean = false;
+  private lastTouchDistance: number = 0;
+  private lastTouchCenter: { x: number; y: number } = { x: 0, y: 0 };
 
   constructor() {
     this.scene = new THREE.Scene();
@@ -156,6 +159,24 @@ export class InteractiveGlobe {
     
     return null;
   }
+
+  private getTouchDistance(touches: TouchList): number {
+    if (touches.length < 2) return 0;
+    const dx = touches[0].clientX - touches[1].clientX;
+    const dy = touches[0].clientY - touches[1].clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+  }
+
+  private getTouchCenter(touches: TouchList): { x: number; y: number } {
+    if (touches.length === 0) return { x: 0, y: 0 };
+    if (touches.length === 1) {
+      return { x: touches[0].clientX, y: touches[0].clientY };
+    }
+    
+    const x = (touches[0].clientX + touches[1].clientX) / 2;
+    const y = (touches[0].clientY + touches[1].clientY) / 2;
+    return { x, y };
+  }
   
   private setupLighting(): void {
     const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
@@ -169,18 +190,29 @@ export class InteractiveGlobe {
   private setupEventListeners(): void {
     const canvas = this.renderer.domElement;
     
+    // === CLICK AND GRAB EVENTS (Single finger/mouse) ===
     canvas.addEventListener('mousedown', this.startDrag.bind(this));
     document.addEventListener('mousemove', this.drag.bind(this));
     document.addEventListener('mouseup', this.endDrag.bind(this));
     
-    canvas.addEventListener('touchstart', this.startDrag.bind(this));
-    document.addEventListener('touchmove', this.drag.bind(this));
-    document.addEventListener('touchend', this.endDrag.bind(this));
+    // === TOUCH EVENTS (Mobile/touch screens) ===
+    canvas.addEventListener('touchstart', this.handleTouchStart.bind(this));
+    document.addEventListener('touchmove', this.handleTouchMove.bind(this));
+    document.addEventListener('touchend', this.handleTouchEnd.bind(this));
     
+    // === TRACKPAD GESTURES (macOS two-finger) ===
+    canvas.addEventListener('wheel', this.handleWheel.bind(this));
+    
+    // === CLICK EVENTS (Section navigation) ===
     canvas.addEventListener('click', this.onClick.bind(this));
     
+    // === WINDOW EVENTS ===
     window.addEventListener('resize', this.onWindowResize.bind(this));
   }
+  
+  // ========================================
+  // CLICK AND GRAB FUNCTIONALITY
+  // ========================================
   
   private startDrag(e: MouseEvent | TouchEvent): void {
     const clientX = 'touches' in e ? e.touches[0]?.clientX ?? 0 : e.clientX;
@@ -236,6 +268,103 @@ export class InteractiveGlobe {
     this.dragStartPoint = null;
     this.dragCurrentPoint = null;
   }
+
+  // ========================================
+  // TOUCH GESTURE FUNCTIONALITY
+  // ========================================
+  
+  private handleTouchStart(e: TouchEvent): void {
+    e.preventDefault();
+    
+    if (e.touches.length === 1) {
+      // Single finger - use sphere grabbing
+      this.startDrag(e);
+    } else if (e.touches.length === 2) {
+      // Two fingers - start gesture mode
+      this.isTwoFingerGesture = true;
+      this.lastTouchDistance = this.getTouchDistance(e.touches);
+      this.lastTouchCenter = this.getTouchCenter(e.touches);
+    }
+  }
+
+  private handleTouchMove(e: TouchEvent): void {
+    e.preventDefault();
+    
+    if (this.isTwoFingerGesture && e.touches.length === 2) {
+      // Two-finger gesture
+      const currentDistance = this.getTouchDistance(e.touches);
+      const currentCenter = this.getTouchCenter(e.touches);
+      
+      // Handle pinch to zoom
+      if (this.lastTouchDistance > 0) {
+        const scale = currentDistance / this.lastTouchDistance;
+        this.camera.position.z *= scale;
+        this.camera.position.z = Math.max(2, Math.min(10, this.camera.position.z));
+        this.camera.updateProjectionMatrix();
+      }
+      
+      // Handle two-finger pan (rotate globe)
+      const deltaX = currentCenter.x - this.lastTouchCenter.x;
+      const deltaY = currentCenter.y - this.lastTouchCenter.y;
+      
+      // Increase sensitivity for two-finger gestures
+      this.rotationY += deltaX * 0.02;
+      this.rotationX += deltaY * 0.02;
+      this.rotationX = Math.max(-Math.PI/2, Math.min(Math.PI/2, this.rotationX));
+      
+      this.updateRotation();
+      
+      this.lastTouchDistance = currentDistance;
+      this.lastTouchCenter = currentCenter;
+    } else if (e.touches.length === 1 && this.isDragging) {
+      // Single finger dragging
+      this.drag(e);
+    }
+  }
+
+  private handleTouchEnd(e: TouchEvent): void {
+    if (e.touches.length === 0) {
+      // All fingers lifted
+      this.endDrag();
+      this.isTwoFingerGesture = false;
+      this.lastTouchDistance = 0;
+    } else if (e.touches.length === 1 && this.isTwoFingerGesture) {
+      // Switched from two fingers to one
+      this.isTwoFingerGesture = false;
+      this.startDrag(e);
+    }
+  }
+
+  // ========================================
+  // TRACKPAD GESTURE FUNCTIONALITY
+  // ========================================
+  
+  private handleWheel(e: WheelEvent): void {
+    e.preventDefault();
+    
+    // Handle macOS trackpad gestures
+    if (e.ctrlKey) {
+      // Pinch to zoom (Ctrl + wheel)
+      const zoomFactor = e.deltaY > 0 ? 1.1 : 0.9;
+      this.camera.position.z *= zoomFactor;
+      this.camera.position.z = Math.max(2, Math.min(10, this.camera.position.z));
+      this.camera.updateProjectionMatrix();
+    } else {
+      // Two-finger pan (regular wheel) - inverted and slowed down
+      const deltaX = e.deltaX * 0.003;
+      const deltaY = e.deltaY * 0.003;
+      
+      this.rotationY -= deltaX;
+      this.rotationX -= deltaY;
+      this.rotationX = Math.max(-Math.PI/2, Math.min(Math.PI/2, this.rotationX));
+      
+      this.updateRotation();
+    }
+  }
+  
+  // ========================================
+  // SECTION NAVIGATION FUNCTIONALITY
+  // ========================================
   
   private onClick(e: MouseEvent): void {
     if (this.isDragging) return;
