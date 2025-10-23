@@ -1,28 +1,401 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dylan Cheung - Interactive Globe</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-129649030-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
+        body {
+            font-family: 'Arial', sans-serif;
+            background: radial-gradient(circle at center, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            height: 100vh;
+            overflow: hidden;
+            cursor: grab;
+        }
 
-        gtag('config', 'UA-129649030-1');
-    </script> -->
+        body.dragging {
+            cursor: grabbing;
+        }
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet">
+        #globe-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+        }
+
+        #globe-canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .ui-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            z-index: 200;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .content.active {
+            opacity: 1;
+        }
+
+        .content h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .content p {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            max-width: 600px;
+        }
+
+        .instructions {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+            text-align: center;
+        }
+
+
+        @media (max-width: 768px) {
+            .content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .content p {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="globe-container">
+        <canvas id="globe-canvas"></canvas>
         
-    <title>Dylan Cheung</title>
-  </head>
+        <div class="ui-overlay">
+            <div class="content active" id="welcome">
+                <h1>Dylan Cheung</h1>
+                <p>Welcome to my interactive globe! Click and drag to explore different sections of my world.</p>
+            </div>
 
-  <body>
-    <div id="root"></div>
-    <!-- <script type="text/javascript" src="dist/bundle.js"></script> -->
-</html><script type="text/javascript" src="/dist/bundle.js"></script><script type="text/javascript" src="/dist/bundle.js"></script><script type="text/javascript" src="/dist/bundle.js"></script>
+            <div class="content" id="about">
+                <h1>About Me</h1>
+                <p>I'm a passionate developer who loves creating immersive digital experiences. This globe represents my journey through different aspects of life and technology.</p>
+            </div>
+
+            <div class="content" id="projects">
+                <h1>Projects</h1>
+                <p>From web applications to mobile apps, I've worked on various projects that combine creativity with technical expertise. Each project is a new adventure.</p>
+            </div>
+
+            <div class="content" id="skills">
+                <h1>Skills</h1>
+                <p>JavaScript, React, Three.js, Node.js, and more. I'm always learning and expanding my toolkit to build better experiences.</p>
+            </div>
+
+            <div class="content" id="contact">
+                <h1>Contact</h1>
+                <p>Let's connect! I'm always interested in new opportunities and collaborations. Reach out and let's create something amazing together.</p>
+            </div>
+
+            <div class="instructions">
+                Click and drag to rotate the globe • Click on white spheres to explore different sections
+            </div>
+        </div>
+
+    </div>
+
+    <script type="module">
+        import * as THREE from './node_modules/three/build/three.module.js';
+
+        class InteractiveGlobe {
+            constructor() {
+                this.scene = new THREE.Scene();
+                this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                this.renderer = new THREE.WebGLRenderer({ 
+                    canvas: document.getElementById('globe-canvas'),
+                    antialias: true,
+                    alpha: true
+                });
+                
+                this.globe = null;
+                this.textPoints = [];
+                this.isDragging = false;
+                this.mouseX = 0;
+                this.mouseY = 0;
+                this.rotationX = 0;
+                this.rotationY = 0;
+                this.activeSection = 'welcome';
+                
+                this.init();
+            }
+            
+            init() {
+                this.setupRenderer();
+                this.createGlobe();
+                this.createTextPoints();
+                this.setupLighting();
+                this.setupEventListeners();
+                this.animate();
+            }
+            
+            setupRenderer() {
+                this.renderer.setSize(window.innerWidth, window.innerHeight);
+                this.renderer.setClearColor(0x000000, 0);
+                this.camera.position.z = 4; // Moved camera back to accommodate larger globe
+            }
+            
+            createGlobe() {
+                const geometry = new THREE.SphereGeometry(1.5, 32, 32); // Made globe bigger
+                
+                // Create a beautiful gradient material
+                const material = new THREE.MeshPhongMaterial({
+                    color: 0x667eea,
+                    transparent: true,
+                    opacity: 0.9,
+                    shininess: 100
+                });
+                
+                this.globe = new THREE.Mesh(geometry, material);
+                this.scene.add(this.globe);
+            }
+            
+            createTextPoints() {
+                const sections = [
+                    { id: 'about', lat: 0, lon: 0, text: 'About' },
+                    { id: 'projects', lat: 30, lon: 90, text: 'Projects' },
+                    { id: 'skills', lat: -30, lon: 180, text: 'Skills' },
+                    { id: 'contact', lat: 0, lon: -90, text: 'Contact' }
+                ];
+                
+                sections.forEach(section => {
+                    const position = this.latLonToVector3(section.lat, section.lon, 1.5);
+                    
+                    // Create a simple sphere as a marker
+                    const markerGeometry = new THREE.SphereGeometry(0.05, 8, 8);
+                    const markerMaterial = new THREE.MeshPhongMaterial({ 
+                        color: 0xffffff,
+                        emissive: 0x444444
+                    });
+                    const marker = new THREE.Mesh(markerGeometry, markerMaterial);
+                    marker.position.copy(position);
+                    marker.userData = { sectionId: section.id };
+                    
+                    // Create text on the sphere surface
+                    this.createTextOnSphere(section.text, position, section.id);
+                    
+                    this.globe.add(marker);
+                    this.textPoints.push(marker);
+                });
+            }
+            
+            createTextOnSphere(text, position, sectionId) {
+                // Create a canvas for text rendering
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.width = 256;
+                canvas.height = 64;
+                
+                // Set canvas background to transparent
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Set text properties
+                context.font = 'bold 24px Arial';
+                context.fillStyle = 'white';
+                context.textAlign = 'center';
+                context.textBaseline = 'middle';
+                
+                // Draw text
+                context.fillText(text, canvas.width / 2, canvas.height / 2);
+                
+                // Create texture from canvas
+                const texture = new THREE.CanvasTexture(canvas);
+                texture.needsUpdate = true;
+                
+                // Create material with the text texture
+                const material = new THREE.MeshBasicMaterial({
+                    map: texture,
+                    transparent: true,
+                    alphaTest: 0.1
+                });
+                
+                // Create plane geometry for the text
+                const geometry = new THREE.PlaneGeometry(0.3, 0.1);
+                const textMesh = new THREE.Mesh(geometry, material);
+                
+                // Position the text on the sphere surface
+                textMesh.position.copy(position);
+                
+                // Make text face outward from sphere center
+                textMesh.lookAt(0, 0, 0);
+                
+                // Add to globe so it rotates with it
+                this.globe.add(textMesh);
+            }
+            
+            latLonToVector3(lat, lon, radius) {
+                const phi = (90 - lat) * (Math.PI / 180);
+                const theta = (lon + 180) * (Math.PI / 180);
+                
+                return new THREE.Vector3(
+                    -(radius * Math.sin(phi) * Math.cos(theta)),
+                    radius * Math.cos(phi),
+                    radius * Math.sin(phi) * Math.sin(theta)
+                );
+            }
+            
+            setupLighting() {
+                const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
+                this.scene.add(ambientLight);
+                
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+                directionalLight.position.set(5, 5, 5);
+                this.scene.add(directionalLight);
+            }
+            
+            setupEventListeners() {
+                const canvas = this.renderer.domElement;
+                
+                canvas.addEventListener('mousedown', this.startDrag.bind(this));
+                document.addEventListener('mousemove', this.drag.bind(this));
+                document.addEventListener('mouseup', this.endDrag.bind(this));
+                
+                canvas.addEventListener('touchstart', this.startDrag.bind(this));
+                document.addEventListener('touchmove', this.drag.bind(this));
+                document.addEventListener('touchend', this.endDrag.bind(this));
+                
+                canvas.addEventListener('click', this.onClick.bind(this));
+                
+                window.addEventListener('resize', this.onWindowResize.bind(this));
+            }
+            
+            startDrag(e) {
+                this.isDragging = true;
+                document.body.classList.add('dragging');
+                
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                
+                this.mouseX = clientX;
+                this.mouseY = clientY;
+            }
+            
+            drag(e) {
+                if (!this.isDragging) return;
+                
+                e.preventDefault();
+                
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                
+                const deltaX = clientX - this.mouseX;
+                const deltaY = clientY - this.mouseY;
+                
+                // Update rotation
+                this.rotationY += deltaX * 0.01;
+                this.rotationX -= deltaY * 0.01;
+                
+                // Constrain X rotation
+                this.rotationX = Math.max(-Math.PI/2, Math.min(Math.PI/2, this.rotationX));
+                
+                this.mouseX = clientX;
+                this.mouseY = clientY;
+                
+                this.updateRotation();
+            }
+            
+            endDrag() {
+                this.isDragging = false;
+                document.body.classList.remove('dragging');
+            }
+            
+            onClick(e) {
+                if (this.isDragging) return;
+                
+                const mouse = new THREE.Vector2();
+                mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+                mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+                
+                const raycaster = new THREE.Raycaster();
+                raycaster.setFromCamera(mouse, this.camera);
+                
+                const intersects = raycaster.intersectObjects(this.textPoints);
+                
+                if (intersects.length > 0) {
+                    const clickedPoint = intersects[0].object;
+                    const sectionId = clickedPoint.userData.sectionId;
+                    this.showSection(sectionId);
+                }
+            }
+            
+            showSection(sectionId) {
+                // Hide all content
+                document.querySelectorAll('.content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                // Show selected content
+                const targetContent = document.getElementById(sectionId);
+                if (targetContent) {
+                    targetContent.classList.add('active');
+                    this.activeSection = sectionId;
+                }
+            }
+            
+            updateRotation() {
+                this.globe.rotation.x = this.rotationX;
+                this.globe.rotation.y = this.rotationY;
+            }
+            
+            onWindowResize() {
+                this.camera.aspect = window.innerWidth / window.innerHeight;
+                this.camera.updateProjectionMatrix();
+                this.renderer.setSize(window.innerWidth, window.innerHeight);
+            }
+            
+            animate() {
+                requestAnimationFrame(() => this.animate());
+                
+                // Gentle rotation when not being dragged
+                if (!this.isDragging) {
+                    this.globe.rotation.y += 0.005;
+                }
+                
+                this.renderer.render(this.scene, this.camera);
+            }
+        }
+        
+        // Initialize the globe
+        new InteractiveGlobe();
+    </script>
+</body>
+</html>
+
