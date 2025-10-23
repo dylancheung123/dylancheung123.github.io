@@ -13,6 +13,8 @@ export class InteractiveGlobe {
   private rotationX: number = 0;
   private rotationY: number = 0;
   private activeSection: string = 'welcome';
+  private dragStartPoint: THREE.Vector3 | null = null;
+  private dragCurrentPoint: THREE.Vector3 | null = null;
 
   constructor() {
     this.scene = new THREE.Scene();
@@ -42,7 +44,7 @@ export class InteractiveGlobe {
   }
   
   private createGlobe(): void {
-    const geometry = new THREE.SphereGeometry(1.5, 32, 32);
+    const geometry = new THREE.SphereGeometry(2.5, 32, 32);
     
     const material = new THREE.MeshPhongMaterial({
       color: 0x667eea,
@@ -70,7 +72,7 @@ export class InteractiveGlobe {
     ];
     
     sections.forEach(section => {
-      const position = this.latLonToVector3(section.lat, section.lon, 1.5);
+      const position = this.latLonToVector3(section.lat, section.lon, 2.5);
       
       const markerGeometry = new THREE.SphereGeometry(0.05, 8, 8);
       const markerMaterial = new THREE.MeshPhongMaterial({ 
@@ -135,6 +137,25 @@ export class InteractiveGlobe {
       radius * Math.sin(phi) * Math.sin(theta)
     );
   }
+
+  private getSphereIntersectionPoint(mouseX: number, mouseY: number): THREE.Vector3 | null {
+    if (!this.globe) return null;
+
+    const mouse = new THREE.Vector2();
+    mouse.x = (mouseX / window.innerWidth) * 2 - 1;
+    mouse.y = -(mouseY / window.innerHeight) * 2 + 1;
+
+    const raycaster = new THREE.Raycaster();
+    raycaster.setFromCamera(mouse, this.camera);
+
+    const intersects = raycaster.intersectObject(this.globe);
+    
+    if (intersects.length > 0) {
+      return intersects[0].point;
+    }
+    
+    return null;
+  }
   
   private setupLighting(): void {
     const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
@@ -162,41 +183,58 @@ export class InteractiveGlobe {
   }
   
   private startDrag(e: MouseEvent | TouchEvent): void {
-    this.isDragging = true;
-    document.body.classList.add('dragging');
-    
     const clientX = 'touches' in e ? e.touches[0]?.clientX ?? 0 : e.clientX;
     const clientY = 'touches' in e ? e.touches[0]?.clientY ?? 0 : e.clientY;
     
-    this.mouseX = clientX;
-    this.mouseY = clientY;
+    // Get the intersection point on the sphere
+    this.dragStartPoint = this.getSphereIntersectionPoint(clientX, clientY);
+    
+    if (this.dragStartPoint) {
+      this.isDragging = true;
+      document.body.classList.add('dragging');
+      this.mouseX = clientX;
+      this.mouseY = clientY;
+    }
   }
   
   private drag(e: MouseEvent | TouchEvent): void {
-    if (!this.isDragging) return;
+    if (!this.isDragging || !this.dragStartPoint) return;
     
     e.preventDefault();
     
     const clientX = 'touches' in e ? e.touches[0]?.clientX ?? 0 : e.clientX;
     const clientY = 'touches' in e ? e.touches[0]?.clientY ?? 0 : e.clientY;
     
-    const deltaX = clientX - this.mouseX;
-    const deltaY = clientY - this.mouseY;
+    // Get current intersection point on the sphere
+    this.dragCurrentPoint = this.getSphereIntersectionPoint(clientX, clientY);
     
-    this.rotationY += deltaX * 0.01;
-    this.rotationX += deltaY * 0.01;
-    
-    this.rotationX = Math.max(-Math.PI/2, Math.min(Math.PI/2, this.rotationX));
-    
-    this.mouseX = clientX;
-    this.mouseY = clientY;
-    
-    this.updateRotation();
+    if (this.dragCurrentPoint) {
+      // Calculate the rotation needed to move the start point to the current point
+      const startPoint = this.dragStartPoint.clone();
+      const currentPoint = this.dragCurrentPoint.clone();
+      
+      // Calculate the axis of rotation (cross product of the two vectors)
+      const rotationAxis = new THREE.Vector3().crossVectors(startPoint, currentPoint).normalize();
+      
+      // Calculate the angle between the vectors
+      const angle = startPoint.angleTo(currentPoint);
+      
+      if (angle > 0.001) { // Only rotate if there's a significant angle
+        // Apply the rotation to the globe
+        const quaternion = new THREE.Quaternion().setFromAxisAngle(rotationAxis, angle);
+        this.globe!.quaternion.multiplyQuaternions(quaternion, this.globe!.quaternion);
+        
+        // Update the start point for the next frame
+        this.dragStartPoint = currentPoint;
+      }
+    }
   }
   
   private endDrag(): void {
     this.isDragging = false;
     document.body.classList.remove('dragging');
+    this.dragStartPoint = null;
+    this.dragCurrentPoint = null;
   }
   
   private onClick(e: MouseEvent): void {
