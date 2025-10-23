@@ -17,9 +17,6 @@
   ],
   "author": "Dylan Cheung",
   "license": "MIT",
-  "dependencies": {
-    "three": "^0.160.0"
-  },
   "devDependencies": {
     "http-server": "^14.1.1"
   }

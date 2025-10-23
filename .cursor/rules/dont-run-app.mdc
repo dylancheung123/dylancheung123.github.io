@@ -1,0 +1,20 @@
+---
+description: Do not run npm scripts that start servers or build processes
+alwaysApply: true
+---
+
+**CRITICAL: Do not run these commands through the AI:**
+
+- `npm run dev` - Do not start the development server
+- `npm run start` - Do not start the production server  
+- `npm run build` - Do not run the build process
+
+These commands should only be run by the user manually in their terminal. The AI should not execute server processes, build processes, or any long-running commands that would interfere with the user's development workflow.
+
+**Allowed commands:**
+- `npm install` - Installing dependencies is fine
+- `npm run type-check` - Type checking is fine
+- File operations, reading, writing, searching
+- One-time utility commands that complete quickly
+
+**Why:** Running servers through AI can cause port conflicts, interfere with the user's active development, and create confusion about which processes are running.
