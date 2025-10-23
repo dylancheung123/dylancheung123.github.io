@@ -12,6 +12,7 @@ export class InteractiveGlobe {
   private mouseY: number = 0;
   private rotationX: number = 0;
   private rotationY: number = 0;
+  private globeQuaternion: THREE.Quaternion = new THREE.Quaternion();
   private activeSection: string = 'welcome';
   private dragStartPoint: THREE.Vector3 | null = null;
   private dragCurrentPoint: THREE.Vector3 | null = null;
@@ -350,15 +351,19 @@ export class InteractiveGlobe {
       this.camera.position.z = Math.max(2, Math.min(10, this.camera.position.z));
       this.camera.updateProjectionMatrix();
     } else {
-      // Two-finger pan (regular wheel) - inverted and slowed down
+      // Two-finger pan (regular wheel) - use quaternion for unlimited rotation
       const deltaX = e.deltaX * 0.003;
       const deltaY = e.deltaY * 0.003;
       
-      this.rotationY -= deltaX;
-      this.rotationX -= deltaY;
-      this.rotationX = Math.max(-Math.PI/2, Math.min(Math.PI/2, this.rotationX));
+      // Create rotation quaternions for X and Y axes
+      const rotationX = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), -deltaY);
+      const rotationY = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), -deltaX);
       
-      this.updateRotation();
+      // Combine rotations and apply to globe
+      if (this.globe) {
+        const combinedRotation = rotationY.multiply(rotationX);
+        this.globe.quaternion.premultiply(combinedRotation);
+      }
     }
   }
   
@@ -403,8 +408,10 @@ export class InteractiveGlobe {
   
   private updateRotation(): void {
     if (this.globe) {
-      this.globe.rotation.x = this.rotationX;
-      this.globe.rotation.y = this.rotationY;
+      // Use quaternion for unlimited rotation without gimbal lock
+      const euler = new THREE.Euler(this.rotationX, this.rotationY, 0, 'YXZ');
+      this.globeQuaternion.setFromEuler(euler);
+      this.globe.quaternion.copy(this.globeQuaternion);
     }
   }
   
