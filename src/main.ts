@@ -1,19 +1,13 @@
-import * as THREE from 'three';
-import { InteractiveGlobe } from './InteractiveGlobe';
+import { FileManager } from './FileManager';
 import './styles.css';
 
-// Main entry point for the interactive globe application
-// This file initializes the globe when the DOM is loaded
-
+// Main entry point for the File Manager application
 document.addEventListener('DOMContentLoaded', () => {
-  // Initialize the interactive globe
-  // 
-  // Control options:
-  // - new InteractiveGlobe() or new InteractiveGlobe(false) - Uses custom controls (rotates globe)
-  // - new InteractiveGlobe(true) - Uses OrbitControls (rotates camera)
   try {
-    new InteractiveGlobe(true); // Change to new InteractiveGlobe(true) to use OrbitControls
+    const fileManager = new FileManager('app-container');
+    // Expose to window for debugging
+    (window as any).fileManager = fileManager;
   } catch (error) {
-    // Silently handle initialization errors
+    console.error('Failed to initialize File Manager:', error);
   }
 });
