@@ -7,8 +7,12 @@ import './styles.css';
 
 document.addEventListener('DOMContentLoaded', () => {
   // Initialize the interactive globe
+  // 
+  // Control options:
+  // - new InteractiveGlobe() or new InteractiveGlobe(false) - Uses custom controls (rotates globe)
+  // - new InteractiveGlobe(true) - Uses OrbitControls (rotates camera)
   try {
-    new InteractiveGlobe();
+    new InteractiveGlobe(true); // Change to new InteractiveGlobe(true) to use OrbitControls
   } catch (error) {
     // Silently handle initialization errors
   }

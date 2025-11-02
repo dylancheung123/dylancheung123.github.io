@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GlobeSection } from './types';
 
 export class InteractiveGlobe {
@@ -19,8 +20,19 @@ export class InteractiveGlobe {
   private isTwoFingerGesture: boolean = false;
   private lastTouchDistance: number = 0;
   private lastTouchCenter: { x: number; y: number } = { x: 0, y: 0 };
+  
+  // ========================================
+  // THREE.JS ORBITCONTROLS (Alternative approach)
+  // ========================================
+  // OrbitControls is Three.js's built-in camera control system
+  // OrbitControls rotates the CAMERA around the scene,
+  // while custom controls rotate the GLOBE object itself.
+  private orbitControls: OrbitControls | null = null;
+  private useOrbitControls: boolean = false;
 
-  constructor() {
+  constructor(useOrbitControls: boolean = false) {
+    this.useOrbitControls = useOrbitControls;
+    
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     this.renderer = new THREE.WebGLRenderer({ 
@@ -37,7 +49,14 @@ export class InteractiveGlobe {
     this.createGlobe();
     this.createTextPoints();
     this.setupLighting();
-    this.setupEventListeners();
+    
+    // Toggle between OrbitControls and custom controls based on prop
+    if (this.useOrbitControls) {
+      this.setupOrbitControls();
+    } else {
+      this.setupEventListeners();
+    }
+    
     this.animate();
   }
   
@@ -186,6 +205,39 @@ export class InteractiveGlobe {
     const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
     directionalLight.position.set(5, 5, 5);
     this.scene.add(directionalLight);
+  }
+  
+  // ========================================
+  // ORBITCONTROLS SETUP (Three.js built-in)
+  // ========================================
+  // OrbitControls rotates the CAMERA around the scene,
+  // while custom controls rotate the GLOBE object itself.
+  // Use the constructor parameter `useOrbitControls: true` to enable this.
+  private setupOrbitControls(): void {
+    // Create OrbitControls attached to camera and renderer DOM element
+    this.orbitControls = new OrbitControls(this.camera, this.renderer.domElement);
+    
+    // Enable damping for smooth momentum (optional but recommended)
+    this.orbitControls.enableDamping = true;
+    this.orbitControls.dampingFactor = 0.05;
+    
+    // Configure zoom limits
+    this.orbitControls.minDistance = 2;
+    this.orbitControls.maxDistance = 10;
+    
+    // Optional: Set rotation limits
+    // this.orbitControls.minPolarAngle = 0; // Prevent going below horizon
+    // this.orbitControls.maxPolarAngle = Math.PI; // Prevent going above horizon
+    
+    // Optional: Enable auto-rotate
+    // this.orbitControls.autoRotate = true;
+    // this.orbitControls.autoRotateSpeed = 2.0;
+    
+    // Optional: Set target (what the camera orbits around)
+    // this.orbitControls.target.set(0, 0, 0);
+    
+    // Optional: Disable panning (only allow rotation and zoom)
+    // this.orbitControls.enablePan = false;
   }
   
   private setupEventListeners(): void {
@@ -423,6 +475,11 @@ export class InteractiveGlobe {
   
   private animate(): void {
     requestAnimationFrame(() => this.animate());
+    
+    // Update OrbitControls if enabled (required for damping to work)
+    if (this.orbitControls) {
+      this.orbitControls.update();
+    }
     
     // Automatic rotation disabled - globe only rotates when user drags
     // if (!this.isDragging) {
