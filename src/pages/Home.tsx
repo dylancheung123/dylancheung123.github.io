@@ -2,7 +2,7 @@ import React from 'react';
 import { Page, pages } from '../data/pages';
 import { VerticalCarousel } from '../components/VerticalCarousel';
 import { GlassSlide } from '../components/GlassSlide';
-import { CreditCardSlide } from '../components/CreditCardSlide';
+import { PageSlide } from '../components/PageSlide';
 
 export const Home: React.FC = () => {
   const applications: Page[] = pages.map(page => ({
@@ -18,7 +18,7 @@ export const Home: React.FC = () => {
     key: app.id,
     // content: <GlassSlide name={app.name} description={app.description} />
     // Uncomment to use credit card style instead:
-    content: <CreditCardSlide name={app.name} description={app.description} />
+    content: <PageSlide name={app.name} description={app.description} />
   }));
 
   return (
@@ -33,7 +33,7 @@ export const Home: React.FC = () => {
     >
       {/* Vertical Stack Carousel */}
       <div className="flex-1 flex items-center justify-center overflow-hidden py-8">
-        <VerticalCarousel slides={slides} offsetRadius={2} />
+        <VerticalCarousel slides={slides} offsetRadius={4} />
       </div>
     </div>
   );

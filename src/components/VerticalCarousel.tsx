@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Slide } from './Slide';
 
 interface SlideData {
   key: string | number;
@@ -123,16 +122,46 @@ export const VerticalCarousel: React.FC<VerticalCarouselProps> = ({
   return (
     <div 
       ref={carouselRef}
-      className="relative w-[280px] h-[400px]"
+      className="relative w-[650px] h-[800px]"
     >
-      {getPresentableSlides().map(({ slide, presentableIndex }) => (
-        <Slide
-          key={slide.key}
-          content={slide.content}
-          offsetRadius={clampedOffsetRadius}
-          index={presentableIndex}
-        />
-      ))}
+      {getPresentableSlides().map(({ slide, presentableIndex }) => {
+        // presentableIndex represents the position relative to current slide (e.g., -2, -1, 0, 1, 2)
+        const stackPosition = presentableIndex;
+        const distance = Math.abs(stackPosition);
+        
+        // Show more slides - increased range to show more cards above and below
+        if (distance > 5) return null;
+        
+        // Calculate vertical offset - each card below is offset down
+        // Increased spacing to show more cards and make titles visible
+        const verticalOffset = stackPosition * 60;
+        const horizontalOffset = stackPosition * 0;
+        
+        // Calculate scale - current card is full size, others slightly smaller
+        const scale = stackPosition === 0 ? 1 : Math.max(0.85, 1 - distance * 0.05);
+        
+        // Calculate z-index - current card is on top
+        const zIndex = 10 - distance;
+        
+        // Clone content element and pass stackPosition if it's a React element
+        const contentWithPosition = React.isValidElement(slide.content)
+          ? React.cloneElement(slide.content as React.ReactElement<any>, { stackPosition })
+          : slide.content;
+        
+        return (
+          <div
+            key={slide.key}
+            className="absolute top-1/2 left-1/2 select-none cursor-pointer transition-all duration-300 ease-out"
+            style={{
+              transform: `translate(-50%, -50%) translateY(${verticalOffset}px) translateX(${horizontalOffset}px) scale(${scale})`,
+              zIndex: zIndex,
+              pointerEvents: stackPosition === 0 ? 'auto' : 'none'
+            }}
+          >
+            {contentWithPosition}
+          </div>
+        );
+      })}
     </div>
   );
 };

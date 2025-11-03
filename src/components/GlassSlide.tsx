@@ -1,13 +1,16 @@
-import React from 'react';
-
 interface GlassSlideProps {
   name: string;
   description: string;
+  stackPosition?: number;
 }
 
-export const GlassSlide: React.FC<GlassSlideProps> = ({ name, description }) => {
+export const GlassSlide = ({ name, description, stackPosition = 0 }: GlassSlideProps) => {
+  // Calculate opacity based on stack position - only for GlassSlide
+  const distance = Math.abs(stackPosition);
+  const opacity = stackPosition === 0 ? 1 : Math.max(0.2, 1 - distance * 0.25);
+  
   return (
-    <div className="w-[320px] h-[320px] select-none">
+    <div className="w-[320px] h-[320px] select-none" style={{ opacity }}>
       {/* Glassmorphism Card */}
       <div className="w-full h-full rounded-[36px] flex flex-col items-center justify-center px-6 py-4 relative bg-white/10 backdrop-blur-[40px] backdrop-saturate-[200%] border border-white/50 shadow-[0_8px_32px_rgba(0,0,0,0.1)] select-none overflow-hidden" style={{
         boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.4), inset 0 -1px 0 rgba(255, 255, 255, 0.2)'
