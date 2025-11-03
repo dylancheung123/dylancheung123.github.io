@@ -2,25 +2,26 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './src/main.ts',
+  entry: './src/main.tsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.[contenthash].js',
     clean: true,
   },
   resolve: {
-    extensions: ['.ts', '.js'],
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
   },
   module: {
     rules: [
       {
-        test: /\.ts$/,
+        test: /\.tsx?$/,
         use: [
           {
             loader: 'babel-loader',
             options: {
               presets: [
                 ['@babel/preset-env', { targets: { browsers: ['last 2 versions'] } }],
+                ['@babel/preset-react', { runtime: 'automatic' }],
                 '@babel/preset-typescript'
               ]
             }

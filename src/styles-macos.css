@@ -1,0 +1,783 @@
+/* Container Styles */
+#macos-container,
+#app-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+}
+
+#app-container {
+  z-index: 2;
+}
+
+/* macOS Tahoe 26 Liquid Glass UI - Authentic Design */
+
+.macos-ui {
+  width: 100%;
+  height: 100vh;
+  background: 
+    radial-gradient(ellipse at 25% 40%, rgba(135, 206, 250, 0.15) 0%, transparent 60%),
+    radial-gradient(ellipse at 75% 60%, rgba(255, 182, 193, 0.1) 0%, transparent 60%),
+    linear-gradient(135deg, #e8f0f8 0%, #f0f4f8 50%, #f8fafc 100%);
+  display: flex;
+  flex-direction: column;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', system-ui, sans-serif;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Liquid Glass Background Animation - Real-time reflection */
+.macos-ui::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(138, 43, 226, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(30, 144, 255, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(255, 182, 193, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+  animation: liquidReflection 25s ease-in-out infinite;
+  z-index: 0;
+  filter: blur(60px);
+}
+
+@keyframes liquidReflection {
+  0%, 100% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+    opacity: 0.6;
+  }
+  33% {
+    transform: translate(3%, -2%) scale(1.1) rotate(2deg);
+    opacity: 0.8;
+  }
+  66% {
+    transform: translate(-2%, 3%) scale(0.95) rotate(-2deg);
+    opacity: 0.7;
+  }
+}
+
+/* Menu Bar - Fully Transparent (Tahoe 26 Style) */
+.macos-menu-bar {
+  background: rgba(255, 255, 255, 0);
+  backdrop-filter: blur(40px) saturate(200%) brightness(1.05);
+  -webkit-backdrop-filter: blur(40px) saturate(200%) brightness(1.05);
+  border: none;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.08);
+  height: 28px;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.88);
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+  z-index: 1000;
+  position: relative;
+  transition: backdrop-filter 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0.5px 1px rgba(0, 0, 0, 0.03);
+}
+
+.macos-menu-bar:hover {
+  backdrop-filter: blur(50px) saturate(220%) brightness(1.08);
+}
+
+.macos-apple-menu {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 0.95;
+  position: relative;
+  padding: 2px;
+  color: rgba(0, 0, 0, 0.88);
+}
+
+.macos-apple-menu svg {
+  width: 14px;
+  height: 17px;
+  pointer-events: none;
+}
+
+.macos-apple-menu:hover {
+  background: rgba(0, 0, 0, 0.08);
+  transform: scale(1.1);
+  opacity: 1;
+}
+
+.macos-apple-menu:active {
+  background: rgba(0, 0, 0, 0.12);
+  transform: scale(1.05);
+}
+
+.macos-app-name {
+  font-weight: 600;
+  margin-right: 24px;
+  padding: 3px 10px;
+  border-radius: 6px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  letter-spacing: -0.4px;
+  color: rgba(0, 0, 0, 0.92);
+  cursor: default;
+  font-size: 13px;
+  pointer-events: auto;
+  z-index: 1;
+}
+
+.macos-app-name:hover {
+  background: rgba(0, 0, 0, 0.05);
+  z-index: 2;
+}
+
+.macos-menu-item {
+  padding: 4px 10px;
+  cursor: default;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 6px;
+  margin: 0 1px;
+  position: relative;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 13px;
+  letter-spacing: -0.2px;
+  pointer-events: auto;
+  z-index: 1;
+}
+
+.macos-menu-item:hover {
+  background: rgba(0, 0, 0, 0.08);
+  color: rgba(0, 0, 0, 0.95);
+  z-index: 2;
+}
+
+.macos-menu-item:active {
+  background: rgba(0, 0, 0, 0.12);
+  transition: background-color 0.1s ease;
+}
+
+.macos-menu-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  padding: 0 8px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.85);
+}
+
+.macos-control-center,
+.macos-menu-icon {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  color: rgba(0, 0, 0, 0.85);
+  position: relative;
+}
+
+.macos-control-center svg,
+.macos-menu-icon svg {
+  width: 16px;
+  height: 16px;
+  stroke-width: 1.5;
+  pointer-events: none;
+}
+
+.macos-battery-icon svg {
+  width: 22px;
+  height: 12px;
+  pointer-events: none;
+}
+
+.macos-control-center:hover,
+.macos-menu-icon:hover {
+  background: rgba(0, 0, 0, 0.08);
+  color: rgba(0, 0, 0, 0.95);
+}
+
+.macos-control-center:active,
+.macos-menu-icon:active {
+  background: rgba(0, 0, 0, 0.12);
+  transform: scale(0.95);
+}
+
+/* Ensure hover states work consistently */
+.macos-apple-menu,
+.macos-menu-item,
+.macos-app-name,
+.macos-control-center,
+.macos-menu-icon,
+.macos-time {
+  pointer-events: auto;
+}
+
+/* Fix menu bar hover interference */
+.macos-menu-bar {
+  pointer-events: auto;
+}
+
+.macos-menu-bar:hover .macos-menu-item:not(:hover),
+.macos-menu-bar:hover .macos-app-name:not(:hover) {
+  /* Don't change these on menu bar hover */
+}
+
+.macos-time {
+  font-weight: 500;
+  letter-spacing: -0.3px;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+  cursor: default;
+  color: rgba(0, 0, 0, 0.85);
+}
+
+.macos-time:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* macOS Menu Dropdown */
+.macos-menu-dropdown {
+  position: fixed;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(40px) saturate(200%) brightness(1.05);
+  -webkit-backdrop-filter: blur(40px) saturate(200%) brightness(1.05);
+  border: 0.5px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.15),
+    0 2px 8px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  padding: 6px;
+  min-width: 200px;
+  z-index: 10000;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.macos-menu-dropdown-item {
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  color: rgba(0, 0, 0, 0.85);
+  user-select: none;
+  display: flex;
+  align-items: center;
+}
+
+.macos-menu-dropdown-item:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.macos-menu-separator {
+  height: 1px;
+  background: rgba(0, 0, 0, 0.1);
+  margin: 4px 0;
+}
+
+/* Carousel Container - Liquid Glass Depth */
+.macos-carousel-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0;
+  z-index: 1;
+  /* Responsive slide sizing */
+  --slide-spacing: 1rem;
+  --slide-size: 100%;
+  --slide-spacing-sm: 1.6rem;
+  --slide-size-sm: 50%;
+  --slide-spacing-lg: 2rem;
+  --slide-size-lg: calc(100% / 3);
+}
+
+/* Embla viewport */
+.macos-carousel-viewport {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+.macos-carousel {
+  display: flex;
+  height: 100%;
+  backface-visibility: hidden;
+  touch-action: pan-y pinch-zoom;
+  margin-left: calc(var(--slide-spacing) * -1);
+}
+
+@media (min-width: 750px) {
+  .macos-carousel {
+    margin-left: calc(var(--slide-spacing-sm) * -1);
+  }
+}
+
+@media (min-width: 1200px) {
+  .macos-carousel {
+    margin-left: calc(var(--slide-spacing-lg) * -1);
+  }
+}
+
+/* Application Tiles - Liquid Glass with Real-time Reflection */
+.macos-app-tile {
+  min-width: 0;
+  flex: 0 0 var(--slide-size);
+  padding-left: var(--slide-spacing);
+  padding-top: 40px;
+  padding-bottom: 40px;
+  padding-right: 5%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+@media (min-width: 750px) {
+  .macos-app-tile {
+    flex: 0 0 var(--slide-size-sm);
+    padding-left: var(--slide-spacing-sm);
+  }
+}
+
+@media (min-width: 1200px) {
+  .macos-app-tile {
+    flex: 0 0 var(--slide-size-lg);
+    padding-left: var(--slide-spacing-lg);
+  }
+}
+
+/* Liquid Glass Ripple Effect */
+.macos-app-tile::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300%;
+  height: 300%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 60%);
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(40px);
+}
+
+.macos-app-tile:hover::after {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.macos-app-tile:hover {
+  transform: translateY(-16px) scale(1.04);
+}
+
+.macos-app-tile:active {
+  transform: translateY(-8px) scale(0.98);
+  transition: transform 0.1s ease;
+}
+
+/* App Icons - Liquid Glass with Color Tinting */
+.macos-app-icon {
+  width: 180px;
+  height: 180px;
+  font-size: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 20px;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 36px;
+  overflow: hidden;
+}
+
+/* Liquid Glass Base Layer */
+.macos-app-icon::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    linear-gradient(135deg, rgba(138, 43, 226, 0.85) 0%, rgba(30, 144, 255, 0.85) 100%),
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4) 0%, transparent 60%);
+  border-radius: 36px;
+  backdrop-filter: blur(40px) saturate(200%) brightness(1.1);
+  -webkit-backdrop-filter: blur(40px) saturate(200%) brightness(1.1);
+  box-shadow: 
+    0 25px 70px rgba(138, 43, 226, 0.3),
+    0 10px 30px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+  border: 0.5px solid rgba(255, 255, 255, 0.25);
+  z-index: 0;
+}
+
+/* Reflective Shimmer Animation */
+.macos-app-icon::after {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.3) 25%,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 255, 255, 0.3) 75%,
+    transparent 100%
+  );
+  transform: rotate(45deg);
+  animation: liquidShimmer 4s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes liquidShimmer {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+    opacity: 0;
+  }
+}
+
+/* Icon Content - Above glass layers */
+.macos-app-icon > * {
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.macos-app-tile:hover .macos-app-icon {
+  transform: translateY(-16px) scale(1.1) rotateY(8deg);
+  box-shadow: 
+    0 40px 100px rgba(138, 43, 226, 0.4),
+    0 20px 50px rgba(0, 0, 0, 0.25),
+    inset 0 2px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.15);
+  filter: brightness(1.15) saturate(1.3);
+}
+
+.macos-app-tile:hover .macos-app-icon::before {
+  background: 
+    linear-gradient(135deg, rgba(138, 43, 226, 0.95) 0%, rgba(30, 144, 255, 0.95) 100%),
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.5) 0%, transparent 60%);
+}
+
+/* Floating Animation */
+.macos-app-icon {
+  animation: liquidFloat 8s ease-in-out infinite;
+}
+
+@keyframes liquidFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-12px) rotate(2deg);
+  }
+  50% {
+    transform: translateY(0) rotate(0deg);
+  }
+  75% {
+    transform: translateY(-8px) rotate(-2deg);
+  }
+}
+
+.macos-app-tile:hover .macos-app-icon {
+  animation: none; /* Stop float animation on hover */
+}
+
+.macos-app-name-label {
+  font-size: 32px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.9);
+  text-align: center;
+  letter-spacing: -1px;
+  margin-top: 24px;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  text-shadow: 0 1px 3px rgba(255, 255, 255, 0.6);
+  position: relative;
+}
+
+.macos-app-tile:hover .macos-app-name-label {
+  transform: translateY(-6px);
+  color: rgba(0, 0, 0, 0.95);
+  text-shadow: 0 2px 8px rgba(255, 255, 255, 0.7);
+  letter-spacing: -0.8px;
+}
+
+/* Content Viewer - Liquid Glass Modal */
+.fm-content-viewer {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 850px;
+  max-width: 92vw;
+  height: 700px;
+  max-height: 92vh;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(80px) saturate(200%) brightness(1.15);
+  -webkit-backdrop-filter: blur(80px) saturate(200%) brightness(1.15);
+  border-radius: 28px;
+  display: flex;
+  flex-direction: column;
+  z-index: 2000;
+  box-shadow: 
+    0 40px 120px rgba(0, 0, 0, 0.25),
+    0 15px 40px rgba(0, 0, 0, 0.15),
+    0 0 0 0.5px rgba(255, 255, 255, 0.4) inset;
+  overflow: hidden;
+  border: 0.5px solid rgba(255, 255, 255, 0.3);
+  animation: modalLiquidAppear 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalLiquidAppear {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.85);
+    backdrop-filter: blur(0px);
+    filter: brightness(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    backdrop-filter: blur(80px) saturate(200%);
+    filter: brightness(1);
+  }
+}
+
+.fm-viewer-title {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  height: 56px;
+  padding: 0 28px;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.2);
+  color: rgba(0, 0, 0, 0.9);
+  letter-spacing: -0.4px;
+}
+
+.fm-viewer-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 0.5px solid rgba(255, 255, 255, 0.25);
+}
+
+.fm-viewer-close:hover {
+  background: rgba(0, 0, 0, 0.12);
+  transform: scale(1.2) rotate(90deg);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: rgba(0, 0, 0, 0.9);
+}
+
+.fm-viewer-close:active {
+  transform: scale(0.9);
+}
+
+.fm-viewer-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(30px) saturate(150%);
+  -webkit-backdrop-filter: blur(30px) saturate(150%);
+  font-size: 17px;
+  line-height: 1.75;
+  color: rgba(0, 0, 0, 0.85);
+  scroll-behavior: smooth;
+}
+
+.fm-viewer-content::-webkit-scrollbar {
+  width: 12px;
+}
+
+.fm-viewer-content::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 6px;
+  backdrop-filter: blur(10px);
+  margin: 8px 0;
+}
+
+.fm-viewer-content::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 6px;
+  border: 3px solid transparent;
+  background-clip: padding-box;
+  transition: all 0.3s ease;
+}
+
+.fm-viewer-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.fm-viewer-content h1 {
+  font-size: 40px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: rgba(0, 0, 0, 0.95);
+  letter-spacing: -1.5px;
+  text-shadow: 0 1px 3px rgba(255, 255, 255, 0.6);
+  line-height: 1.2;
+}
+
+.fm-viewer-content h2 {
+  font-size: 32px;
+  font-weight: 600;
+  margin-top: 32px;
+  margin-bottom: 20px;
+  color: rgba(0, 0, 0, 0.9);
+  letter-spacing: -1px;
+  line-height: 1.3;
+}
+
+.fm-viewer-content h3 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 28px;
+  margin-bottom: 16px;
+  color: rgba(0, 0, 0, 0.8);
+  letter-spacing: -0.6px;
+}
+
+.fm-viewer-content p {
+  margin-bottom: 16px;
+}
+
+.fm-viewer-content a {
+  color: #007aff;
+  text-decoration: none;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  border-bottom: 1px solid transparent;
+  padding-bottom: 2px;
+  font-weight: 500;
+}
+
+.fm-viewer-content a:hover {
+  color: #0051d5;
+  border-bottom-color: #0051d5;
+  transform: translateY(-1px);
+}
+
+/* Liquid Glass Depth Effect on Container */
+.macos-carousel-container::before {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: -100%;
+  width: 300%;
+  height: 300%;
+  background: 
+    radial-gradient(ellipse at 30% 40%, rgba(138, 43, 226, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 60%, rgba(30, 144, 255, 0.12) 0%, transparent 50%);
+  animation: liquidDepth 20s ease-in-out infinite;
+  pointer-events: none;
+  z-index: -1;
+  filter: blur(80px);
+}
+
+@keyframes liquidDepth {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(5%, -3%) rotate(5deg);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .macos-app-icon {
+    width: 140px;
+    height: 140px;
+    font-size: 95px;
+  }
+  
+  .macos-app-name-label {
+    font-size: 28px;
+  }
+  
+  .macos-carousel-container {
+    padding: 60px 40px;
+  }
+
+  .fm-content-viewer {
+    width: 95vw;
+    height: 88vh;
+    border-radius: 24px;
+  }
+}
+
+/* Enhanced glassmorphism - Real-time reflection */
+.macos-app-icon {
+  position: relative;
+}
+
+/* Color tinting options (can be customized per app) */
+.macos-app-tile[data-app="about"] .macos-app-icon::before {
+  background: 
+    linear-gradient(135deg, rgba(138, 43, 226, 0.9) 0%, rgba(30, 144, 255, 0.9) 100%),
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4) 0%, transparent 60%);
+}
+
+.macos-app-tile[data-app="projects"] .macos-app-icon::before {
+  background: 
+    linear-gradient(135deg, rgba(255, 119, 198, 0.9) 0%, rgba(138, 43, 226, 0.9) 100%),
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4) 0%, transparent 60%);
+}
+
+.macos-app-tile[data-app="contact"] .macos-app-icon::before {
+  background: 
+    linear-gradient(135deg, rgba(30, 144, 255, 0.9) 0%, rgba(138, 43, 226, 0.9) 100%),
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4) 0%, transparent 60%);
+}
