@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useEffect } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import { Application, MacOSUICallbacks } from './types';
-import { UIView } from '../../UIManager';
 import { pages } from '../../data/pages';
 
 interface MacOSAppBarProps {
@@ -9,12 +8,11 @@ interface MacOSAppBarProps {
 }
 
 export const MacOSAppBar: React.FC<MacOSAppBarProps> = ({ callbacks }) => {
-  const [activeDropdown, setActiveDropdown] = useState<HTMLElement | null>(null);
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       loop: false,
       align: 'start',
-      containScroll: 'trimSnaps',
+      containScroll: 'keepSnaps',
       dragFree: false,
       slidesToScroll: 1,
       axis: 'x'
@@ -79,170 +77,40 @@ export const MacOSAppBar: React.FC<MacOSAppBarProps> = ({ callbacks }) => {
     contentId: page.contentId
   }));
 
-  const getCurrentTime = (): string => {
-    return new Date().toLocaleTimeString('en-US', { 
-      hour: 'numeric', 
-      minute: '2-digit',
-      hour12: true 
-    });
-  };
-
-  const [currentTime, setCurrentTime] = useState(getCurrentTime());
-
-  useEffect(() => {
-    // Update time every minute
-    const interval = setInterval(() => {
-      setCurrentTime(getCurrentTime());
-    }, 60000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const toggleViewDropdown = (menuItem: HTMLElement): void => {
-    if (activeDropdown) {
-      activeDropdown.remove();
-      setActiveDropdown(null);
-      return;
-    }
-
-    if (!callbacks.uiManager) return;
-
-    const dropdown = document.createElement('div');
-    dropdown.className = 'macos-menu-dropdown';
-    
-    const rect = menuItem.getBoundingClientRect();
-    dropdown.style.left = `${rect.left}px`;
-    dropdown.style.top = `${rect.bottom}px`;
-
-    const currentView = callbacks.uiManager.getCurrentView();
-    const options = [
-      { label: 'macOS View', view: UIView.MacOS, checkmark: true },
-      { label: 'File Manager View', view: UIView.FileManager, checkmark: true },
-      { type: 'separator' as const },
-      { label: 'Toggle View', action: () => callbacks.uiManager!.toggleView() }
-    ] as Array<{ label?: string; view?: UIView; checkmark?: boolean; type?: 'separator'; action?: () => void }>;
-
-    options.forEach(option => {
-      if (option.type === 'separator') {
-        const separator = document.createElement('div');
-        separator.className = 'macos-menu-separator';
-        dropdown.appendChild(separator);
-      } else {
-        const item = document.createElement('div');
-        item.className = 'macos-menu-dropdown-item';
-        
-        const label = document.createElement('span');
-        label.textContent = option.label || '';
-        
-        if (option.checkmark && callbacks.uiManager!.getCurrentView() === option.view) {
-          label.innerHTML = `✓ ${label.textContent}`;
-        }
-        
-        item.appendChild(label);
-        
-        if (option.action) {
-          item.addEventListener('click', () => {
-            option.action!();
-            dropdown.remove();
-            setActiveDropdown(null);
-          });
-        } else if (option.view !== undefined) {
-          item.addEventListener('click', () => {
-            callbacks.uiManager!.switchToView(option.view!);
-            dropdown.remove();
-            setActiveDropdown(null);
-          });
-        }
-        
-        dropdown.appendChild(item);
-      }
-    });
-
-    document.body.appendChild(dropdown);
-    setActiveDropdown(dropdown);
-
-    setTimeout(() => {
-      const closeHandler = (e: MouseEvent) => {
-        if (!dropdown.contains(e.target as Node) && !menuItem.contains(e.target as Node)) {
-          dropdown.remove();
-          setActiveDropdown(null);
-          document.removeEventListener('click', closeHandler);
-        }
-      };
-      document.addEventListener('click', closeHandler);
-    }, 0);
-  };
-
-  const handleViewMenuClick = (e: React.MouseEvent<HTMLDivElement>): void => {
-    e.stopPropagation();
-    toggleViewDropdown(e.currentTarget);
-  };
-
   return (
-    <div className="macos-ui">
-      {/* Menu Bar */}
-      <div className="macos-menu-bar">
-        <div className="macos-apple-menu" title="Apple Menu">
-          <svg width="14" height="17" viewBox="0 0 14 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10.532 0c-.18 1.28-.66 2.347-1.44 3.2-.75.827-1.67 1.307-2.76 1.44-.06-1.027-.33-1.88-.81-2.56C5.052 1.44 4.192 1 3.052.867c.06-.867.18-1.547.36-2.04C3.592.867 3.592.867 3.592.867c1.11.133 2.01.573 2.7 1.32.66.693 1.05 1.533 1.17 2.52.96-.133 1.8-.533 2.52-1.2.72-.667 1.23-1.467 1.53-2.4-.96-.187-1.79-.467-2.49-.84-.7-.373-1.27-.813-1.71-1.32C4.552.4 4.152.133 3.592 0c.84.24 1.55.613 2.13 1.12.58.507 1.02 1.12 1.32 1.84.36-.96.99-1.707 1.89-2.24.9-.533 1.89-.853 2.97-.96-.06.32-.15.613-.27.88z" fill="currentColor"/>
-            <path d="M9.312 3.84c.96 0 1.77.32 2.43.96.66.64.99 1.493.99 2.56 0 1.24-.39 2.24-1.17 3-.78.76-1.74 1.14-2.88 1.14-.9 0-1.65-.307-2.25-.92-.6-.613-.9-1.4-.9-2.36 0-1.107.36-2.027 1.08-2.76.72-.733 1.68-1.1 2.88-1.1.12 0 .21.007.21.007v.467z" fill="currentColor"/>
-          </svg>
-        </div>
-
-        <div className="macos-app-name" title="Application Menu">Dylan Cheung</div>
-
-        {['File', 'Edit', 'View', 'Go', 'Window', 'Help'].map(item => (
-          <div
-            key={item}
-            className="macos-menu-item"
-            role="menuitem"
-            onClick={item === 'View' && callbacks.uiManager ? handleViewMenuClick : undefined}
-          >
-            {item}
-          </div>
-        ))}
-
-        <div className="macos-menu-right">
-          <div className="macos-control-center" title="Control Center">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="1.5" fill="none"/>
-              <circle cx="8" cy="8" r="2" fill="currentColor"/>
-            </svg>
-          </div>
-
-          <div className="macos-menu-icon macos-wifi-icon" title="Wi-Fi">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M2.5 6.5L8 12l5.5-5.5c-2-2-4.5-2.5-7-2.5s-5 .5-7 2.5z" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
-              <circle cx="8" cy="12" r="1.5" fill="currentColor"/>
-            </svg>
-          </div>
-
-          <div className="macos-menu-icon macos-battery-icon" title="Battery">
-            <svg width="22" height="12" viewBox="0 0 22 12" fill="none">
-              <rect x="1" y="3" width="18" height="6" rx="1" stroke="currentColor" strokeWidth="1.5" fill="none"/>
-              <rect x="19" y="5" width="2" height="2" fill="currentColor"/>
-              <rect x="2.5" y="4.5" width="15" height="5" fill="currentColor" opacity="0.9"/>
-            </svg>
-          </div>
-
-          <div className="macos-time">{currentTime}</div>
-        </div>
-      </div>
-
+    <div 
+      className="w-full h-screen flex flex-col font-sans overflow-hidden relative"
+      style={{
+        backgroundImage: 'url(https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
       {/* Carousel */}
-      <div className="macos-carousel-container">
-        <div className="macos-carousel-viewport" ref={setViewportRef}>
-          <div className="macos-carousel">
+      <div className="flex-1 flex items-center justify-center overflow-hidden py-8">
+        <div className="w-[70%] h-[400px] overflow-hidden" ref={setViewportRef}>
+          <div className="flex h-full items-center gap-6" style={{ paddingLeft: '1rem', paddingRight: '1rem' }}>
             {applications.map((app, index) => (
               <div
                 key={app.id}
-                className="macos-app-tile"
+                className="flex flex-col items-center justify-center cursor-pointer flex-shrink-0 select-none"
                 data-index={index}
                 data-app={app.id}
                 onClick={() => callbacks.onApplicationClick(app)}
               >
-                <div className="macos-app-icon">{app.icon}</div>
-                <div className="macos-app-name-label">{app.name}</div>
+                {/* Glassmorphism Card */}
+                <div className="w-[280px] h-[200px] rounded-[36px] flex flex-col items-center justify-center px-6 py-4 relative bg-white/10 backdrop-blur-[40px] backdrop-saturate-[200%] border border-white/50 shadow-[0_8px_32px_rgba(0,0,0,0.1)] hover:scale-110 hover:-translate-y-4 hover:shadow-[0_12px_48px_rgba(0,0,0,0.15)] transition-all duration-[600ms] ease-out select-none overflow-hidden" style={{
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.4), inset 0 -1px 0 rgba(255, 255, 255, 0.2)'
+                }}>
+                  {/* Glass edge highlight */}
+                  <div className="absolute inset-0 rounded-[36px] pointer-events-none" style={{
+                    background: 'linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0) 100%)',
+                    border: '1px solid rgba(255, 255, 255, 0.5)'
+                  }}></div>
+                  <h3 className="text-white text-xl font-semibold mb-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] select-none text-center relative z-10">{app.name}</h3>
+                  <p className="text-white/90 text-sm drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] select-none text-center relative z-10">{app.description}</p>
+                </div>
               </div>
             ))}
           </div>

@@ -2,8 +2,6 @@
  * Types for macOS UI components
  */
 
-import { UIManager } from '../../UIManager';
-
 export interface Application {
   id: string;
   name: string;
@@ -14,6 +12,5 @@ export interface Application {
 
 export interface MacOSUICallbacks {
   onApplicationClick: (app: Application) => void;
-  uiManager?: UIManager;
 }
 

@@ -2,13 +2,8 @@ import React, { useState } from 'react';
 import { MacOSAppBar } from './components/macOS/MacOSAppBar';
 import { Application } from './components/macOS/types';
 import { ContentViewer } from './components/ContentViewer';
-import { UIManager } from './UIManager';
 
-interface MacOSUIProps {
-  uiManager: UIManager;
-}
-
-export const MacOSUI: React.FC<MacOSUIProps> = ({ uiManager }) => {
+export const MacOSUI: React.FC = () => {
   const [viewerContent, setViewerContent] = useState<string | null>(null);
   const [viewerTitle, setViewerTitle] = useState<string>('');
 
@@ -53,8 +48,7 @@ export const MacOSUI: React.FC<MacOSUIProps> = ({ uiManager }) => {
     <>
       <MacOSAppBar
         callbacks={{
-          onApplicationClick: handleAppClick,
-          uiManager: uiManager
+          onApplicationClick: handleAppClick
         }}
       />
       {viewerContent && (
