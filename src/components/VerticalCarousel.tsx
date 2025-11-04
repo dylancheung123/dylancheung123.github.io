@@ -117,6 +117,7 @@ export const VerticalCarousel: React.FC<VerticalCarouselProps> = ({
     return presentableSlides;
   };
 
+
   const clampedOffsetRadius = clampOffsetRadius(offsetRadius);
 
   return (
@@ -134,7 +135,7 @@ export const VerticalCarousel: React.FC<VerticalCarouselProps> = ({
         
         // Calculate vertical offset - each card below is offset down
         // Increased spacing to show more cards and make titles visible
-        const verticalOffset = stackPosition * 60;
+        const verticalOffset = stackPosition * 80;
         const horizontalOffset = stackPosition * 0;
         
         // Calculate scale - current card is full size, others slightly smaller
@@ -143,21 +144,21 @@ export const VerticalCarousel: React.FC<VerticalCarouselProps> = ({
         // Calculate z-index - current card is on top
         const zIndex = 10 - distance;
         
-        // Clone content element and pass stackPosition if it's a React element
+        // Clone content element and pass stackPosition and slideKey if it's a React element
         const contentWithPosition = React.isValidElement(slide.content)
-          ? React.cloneElement(slide.content as React.ReactElement<any>, { stackPosition })
+          ? React.cloneElement(slide.content as React.ReactElement<any>, { stackPosition, slideKey: slide.key })
           : slide.content;
         
         return (
-          <div
-            key={slide.key}
-            className="absolute top-1/2 left-1/2 select-none cursor-pointer transition-all duration-300 ease-out"
-            style={{
-              transform: `translate(-50%, -50%) translateY(${verticalOffset}px) translateX(${horizontalOffset}px) scale(${scale})`,
-              zIndex: zIndex,
-              pointerEvents: stackPosition === 0 ? 'auto' : 'none'
-            }}
-          >
+                <div
+                  key={slide.key}
+                  className="absolute top-1/2 left-1/2 select-none transition-all duration-300 ease-out"
+                  style={{
+                    transform: `translate(-50%, -50%) translateY(${verticalOffset}px) translateX(${horizontalOffset}px) scale(${scale})`,
+                    zIndex: zIndex,
+                    pointerEvents: stackPosition === 0 ? 'auto' : 'none'
+                  }}
+                >
             {contentWithPosition}
           </div>
         );

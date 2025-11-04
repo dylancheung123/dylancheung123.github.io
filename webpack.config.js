@@ -42,6 +42,10 @@ module.exports = {
         test: /\.md$/,
         type: 'asset/source',
       },
+      {
+        test: /\.(jpg|jpeg|png|gif|svg)$/i,
+        type: 'asset/resource',
+      },
     ],
   },
   plugins: [

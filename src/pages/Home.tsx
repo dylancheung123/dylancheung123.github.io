@@ -1,7 +1,6 @@
 import React from 'react';
 import { Page, pages } from '../data/pages';
 import { VerticalCarousel } from '../components/VerticalCarousel';
-import { GlassSlide } from '../components/GlassSlide';
 import { PageSlide } from '../components/PageSlide';
 
 export const Home: React.FC = () => {
@@ -16,8 +15,6 @@ export const Home: React.FC = () => {
   // You can mix and match slide types here
   const slides = applications.map((app) => ({
     key: app.id,
-    // content: <GlassSlide name={app.name} description={app.description} />
-    // Uncomment to use credit card style instead:
     content: <PageSlide name={app.name} description={app.description} />
   }));
 
@@ -25,10 +22,12 @@ export const Home: React.FC = () => {
     <div 
       className="w-full h-screen flex flex-col font-sans overflow-hidden relative"
       style={{
-        backgroundImage: 'url(https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
+        background: '#faf8f3',
+        backgroundImage: `
+          repeating-linear-gradient(0deg, transparent 120px, transparent 160px, #e0ddd6 160px, #e0ddd6 161px),
+          linear-gradient(90deg, #e8e5de 0%, #e8e5de 50px, transparent 50px, transparent 100%)
+        `,
+        backgroundSize: '100% 100%, 100% 100%'
       }}
     >
       {/* Vertical Stack Carousel */}
