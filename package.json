@@ -1,49 +1,49 @@
 {
   "name": "dylancheung123.github.io",
-  "version": "1.0.0",
-  "description": "<h2 align=\"center\">My Personal Website</h2>\r </p>",
-  "main": "src/App.js",
+  "version": "2.0.0",
+  "description": "Personal website with Windows File Manager UI",
+  "main": "index.html",
   "scripts": {
-    "start": "webpack --mode=development",
-    "build": "webpack --mode=production",
-    "dev": "webpack-dev-server"
+    "dev": "webpack serve --mode development",
+    "build": "webpack --mode production",
+    "type-check": "tsc --noEmit"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dylancheung123/dylancheung123.github.io.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/dylancheung123/dylancheung123.github.io/issues"
-  },
-  "homepage": "https://github.com/dylancheung123/dylancheung123.github.io#readme",
+  "keywords": [
+    "personal",
+    "website",
+    "file-manager",
+    "windows-ui"
+  ],
+  "author": "Dylan Cheung",
+  "license": "MIT",
   "dependencies": {
-    "axios": "^0.20.0",
-    "react": "^16.13.0",
-    "react-awesome-slider": "^4.1.0",
-    "react-dom": "^16.13.0",
-    "react-image-gallery": "^1.0.8",
-    "react-router-dom": "^5.2.0",
-    "react-spring": "^8.0.27",
-    "three": "^0.114.0",
-    "vanta": "^0.5.21"
+    "@types/react-router-dom": "^5.3.3",
+    "embla-carousel-react": "^8.6.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^7.9.5",
+    "react-spring-3d-carousel": "^1.3.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.8.7",
-    "@babel/plugin-transform-runtime": "^7.12.1",
-    "@babel/preset-env": "^7.12.1",
-    "@babel/preset-react": "^7.8.3",
-    "@babel/runtime": "^7.12.1",
-    "babel-loader": "^8.0.6",
-    "css-loader": "^3.4.2",
-    "file-loader": "^6.1.1",
-    "html-webpack-plugin": "^3.2.0",
-    "lodash": "^4.17.20",
-    "style-loader": "^1.1.3",
-    "url-loader": "^4.1.1",
-    "webpack": "^4.42.0",
-    "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.11.0"
+    "@babel/core": "^7.23.0",
+    "@babel/preset-env": "^7.23.0",
+    "@babel/preset-react": "^7.23.0",
+    "@babel/preset-typescript": "^7.23.0",
+    "@tailwindcss/postcss": "^4.1.16",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "autoprefixer": "^10.4.21",
+    "babel-loader": "^9.1.3",
+    "css-loader": "^6.8.1",
+    "html-webpack-plugin": "^5.5.3",
+    "postcss": "^8.5.6",
+    "postcss-loader": "^8.2.0",
+    "style-loader": "^3.3.3",
+    "tailwindcss": "^4.1.16",
+    "ts-loader": "^9.5.0",
+    "typescript": "^5.0.0",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
   }
 }

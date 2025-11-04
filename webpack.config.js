@@ -1,60 +1,71 @@
-const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-// const webpack = require('webpack')
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  performance : {
-    hints : false
-  },        
-  entry: './src/App.js',
+  entry: './src/main.tsx',
   output: {
-    path: path.join(__dirname, './'),
-    filename: 'dist/bundle.js',
-    publicPath: '/'
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.[contenthash].js',
+    clean: true,
+  },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
   },
   module: {
     rules: [
       {
-        test: /\.js$/,
-        // exclude: /node_modules/,
-        loader: 'babel-loader'
+        test: /\.tsx?$/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: [
+                ['@babel/preset-env', { targets: { browsers: ['last 2 versions'] } }],
+                ['@babel/preset-react', { runtime: 'automatic' }],
+                '@babel/preset-typescript'
+              ]
+            }
+          },
+          'ts-loader'
+        ],
+        exclude: /node_modules/,
       },
       {
-        test: /\.css$/i,
-        // exclude: /node_modules/,
-        use: ['style-loader', 'css-loader'],
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          'postcss-loader',
+        ],
       },
-      // {
-      //   test: /\.(jpg|png|jpe?g|gif)$/i,
-      //   exclude: /node_modules/,
-      //   use: [
-      //     {
-      //       loader: 'file-loader',
-      //     },
-      //   ],
-      // },
       {
-        test: /\.(png|jp(e*)g|svg)$/,  
-        use: [{
-          loader: 'url-loader',
-          options: { 
-            limit: 8000, // Convert images < 8kb to base64 strings
-            name: 'dist/images/[name].[ext]'
-          } 
-        }]
+        test: /\.md$/,
+        type: 'asset/source',
       },
-    ]
-  },
-  devServer: {
-    historyApiFallback: true
+      {
+        test: /\.(jpg|jpeg|png|gif|svg)$/i,
+        type: 'asset/resource',
+      },
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({
-        filename: 'index.html',
-        template: './index.html'
+      template: './src/index.html',
+      filename: 'index.html',
     }),
-    // new webpack.DefinePlugin({
-    //   'process.env.PUBLIC_URL': JSON.stringify('https://dylancheung123.github.io/')
-    // }),
-  ]
+  ],
+  devServer: {
+    static: {
+      directory: path.join(__dirname, 'dist'),
+    },
+    compress: true,
+    port: 3001,
+    open: true,
+    hot: true,
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
+  },
 };

@@ -1,0 +1,42 @@
+---
+description: This app must be entirely frontend with no server dependencies
+globs: "*.ts, *.tsx, *.html, *.css, *.js, *.jsx, package.json, vite.config.ts"
+alwaysApply: true
+---
+
+This application must be entirely frontend with no server dependencies.
+
+## Requirements
+
+- No server-side code (no Express, Fastify, or any backend frameworks)
+- No server dependencies in package.json
+- Use static file serving only (Vite dev server for development)
+- All functionality must run in the browser
+- Build output should be static files that can be deployed to GitHub Pages
+- No API calls to external servers unless absolutely necessary
+- Use client-side routing if needed
+- All data should be embedded or fetched from static files
+
+## Allowed
+
+- Vite dev server for development (npm run dev)
+- Static file serving
+- Client-side JavaScript/TypeScript
+- CSS frameworks and styling
+- Three.js and other frontend libraries
+- Static data files (JSON, images, etc.)
+
+## Not Allowed
+
+- Express, Fastify, or any backend framework
+- Server-side rendering (SSR)
+- Database connections
+- Server-side API endpoints
+- Backend authentication
+- Server-side file processing
+
+## Deployment
+
+- Build output should be static files in dist/ folder
+- Ready for GitHub Pages deployment
+- No server configuration needed
