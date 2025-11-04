@@ -24,10 +24,11 @@ export const Home: React.FC = () => {
       style={{
         background: '#faf8f3',
         backgroundImage: `
-          repeating-linear-gradient(0deg, transparent 120px, transparent 160px, #e0ddd6 160px, #e0ddd6 161px),
-          linear-gradient(90deg, #e8e5de 0%, #e8e5de 50px, transparent 50px, transparent 100%)
+          repeating-linear-gradient(0deg, transparent 20px, transparent 60px, #3b82f6 60px, #3b82f6 61px),
+          linear-gradient(90deg, transparent 0px, transparent 100px, #ef4444 100px, #ef4444 101px, transparent 101px, transparent 100%)
         `,
-        backgroundSize: '100% 100%, 100% 100%'
+        backgroundSize: '100% 100%, 100% 100%',
+        backgroundPosition: '0 0, 0 0'
       }}
     >
       {/* Vertical Stack Carousel */}
